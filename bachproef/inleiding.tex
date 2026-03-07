@@ -5,32 +5,63 @@
 \chapter{\IfLanguageName{dutch}{Inleiding}{Introduction}}%
 \label{ch:inleiding}
 
-De inleiding moet de lezer net genoeg informatie verschaffen om het onderwerp te begrijpen en in te zien waarom de onderzoeksvraag de moeite waard is om te onderzoeken. In de inleiding ga je literatuurverwijzingen beperken, zodat de tekst vlot leesbaar blijft. Je kan de inleiding verder onderverdelen in secties als dit de tekst verduidelijkt. Zaken die aan bod kunnen komen in de inleiding~\autocite{Pollefliet2011}:
 
-\begin{itemize}
-  \item context, achtergrond
-  \item afbakenen van het onderwerp
-  \item verantwoording van het onderwerp, methodologie
-  \item probleemstelling
-  \item onderzoeksdoelstelling
-  \item onderzoeksvraag
-  \item \ldots
-\end{itemize}
+\section{Inleiding}%
+\label{sec:inleiding}
+
+Binnen de opleidingen Toegepaste Informatica aan HOGENT is het gebruik van generatieve AI-assistenten zoals ChatGPT, Copilot, Gemini en Perplexity de voorbije jaren sterk toegenomen. Dit sluit aan bij recente studies die aantonen dat generatieve AI inmiddels door een groot deel van de studenten wereldwijd wordt gebruikt voor academische taken \autocite{Amoah2025}. Studenten in de richting Data Science \& AI zouden deze tools kunnen inzetten als programmeerhulp bij het oplossen van opdrachten en projecten, bijvoorbeeld voor het schrijven van Python-code voor data-analyse, het bouwen van ETL-processen en het opzetten van eenvoudige data-pipelines. Tegelijk zorgt dit voor vragen op over de kwaliteit en betrouwbaarheid van deze manier van werken.
+
+In de praktijk blijkt dat LLM gegenereerde code niet altijd correct is of up to date \autocite{Tambon2024}. Code kan logische fouten bevatten, gebruikmaken van verouderde bibliotheken of inefficiënte design principes toepassen die pas problemen veroorzaken bij grotere datasets of in productie omgevingen. Studenten hebben vaak nog onvoldoende ervaring om dergelijke problemen te herkennen, waardoor zij de voorgestelde oplossingen soms zonder grondige controle overnemen \autocite{Oliveira2024}. De combinatie van een overtuigende schrijfstijl van de AI assistent en beperkte ervaring bij de gebruiker vergroot het risico dat foutieve of minder sterke oplossingen gebruikt worden in opdrachten, stages of projecten en dat studenten minder leren redeneren over hun codekwaliteit en ontwerpkeuzes.
+
+Deze bachelorproef focust op een deel van dit brede thema, namelijk het gebruik van LLM’s door studenten Toegepaste Informatica aan HOGENT binnen het domein AI en Data Engineering. De doelgroep is studenten die Python inzetten voor data analyse, het verwerken van bestanden of databronnen, het uitvoeren van transformaties en het opzetten van eenvoudige ETL processen richting een database of data warehouse. Binnen die context wordt niet gekeken naar alle mogelijke toepassingen van LLM’s, maar specifiek naar het genereren van Python code voor data engineering taken.
+
+
+Het doel van deze bachelorproef is om vanuit deze probleemstelling een toegepast onderzoek uit te voeren dat zowel inzicht oplevert in de prestaties van verschillende LLM’s als concrete handvatten biedt voor studenten. Enerzijds wordt geprobeerd om via een gestructureerde experimenten de kwaliteit van LLM gegenereerde Python code te evalueren op vlak van syntaxis, logica, efficiëntie en gebruik van relevante bibliotheken in realistische data engineering taken. De centrale meerwaarde ligt dus niet alleen in het beschrijven van het probleem, maar vooral in het aanbieden van concrete, toepasbare richtlijnen die het gebruik van LLM’s in de opleiding Toegepaste Informatica betrouwbaarder moeten maken.
+
+
+
+
+%De inleiding moet de lezer net genoeg informatie verschaffen om het onderwerp te begrijpen en in te zien waarom de onderzoeksvraag de moeite waard is om te onderzoeken. In de inleiding ga je literatuurverwijzingen beperken, zodat de tekst vlot leesbaar blijft. Je kan de inleiding verder onderverdelen in secties als dit de tekst verduidelijkt. Zaken die aan bod kunnen komen in de inleiding~
+%
+%\begin{itemize}
+%  \item context, achtergrond
+%  \item afbakenen van het onderwerp
+%  \item verantwoording van het onderwerp, methodologie
+%  \item probleemstelling
+%  \item onderzoeksdoelstelling
+%  \item onderzoeksvraag
+%  \item \ldots
+%\end{itemize}
 
 \section{\IfLanguageName{dutch}{Probleemstelling}{Problem Statement}}%
 \label{sec:probleemstelling}
 
-Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's'', systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).
+Studenten Toegepaste Informatica aan HOGENT, in het bijzonder binnen de afstudeerrichting AI en Data Engineering, gebruiken steeds vaker LLM’s om Python code te laten genereren voor data analyse en ETL taken. Zij beschikken echter niet over een duidelijk kader om de technische correctheid, efficiëntie en actualiteit van deze code systematisch te beoordelen, waardoor foutieve of slechte oplossingen onbewust kunnen worden overgenomen in opdrachten en stageprojecten.
+
+De probleemstelling van deze bachelorproef is dat deze studenten wel intensief LLM’s inzetten, maar weinig zicht hebben op de werkelijke betrouwbaarheid van de gegenereerde Python code in realistische data engineering scenario’s, en evenmin op concrete werkwijzen om die code kritisch te evalueren. Het onderzoek richt zich daarom expliciet op deze doelgroep en heeft als doel voor hen een praktische en concrete meerwaarde te creëren.
+
+%Uit je probleemstelling moet duidelijk zijn dat je onderzoek een meerwaarde heeft voor een concrete doelgroep. De doelgroep moet goed gedefinieerd en afgelijnd zijn. Doelgroepen als ``bedrijven,'' ``KMO's'', systeembeheerders, enz.~zijn nog te vaag. Als je een lijstje kan maken van de personen/organisaties die een meerwaarde zullen vinden in deze bachelorproef (dit is eigenlijk je steekproefkader), dan is dat een indicatie dat de doelgroep goed gedefinieerd is. Dit kan een enkel bedrijf zijn of zelfs één persoon (je co-promotor/opdrachtgever).
 
 \section{\IfLanguageName{dutch}{Onderzoeksvraag}{Research question}}%
 \label{sec:onderzoeksvraag}
 
-Wees zo concreet mogelijk bij het formuleren van je onderzoeksvraag. Een onderzoeksvraag is trouwens iets waar nog niemand op dit moment een antwoord heeft (voor zover je kan nagaan). Het opzoeken van bestaande informatie (bv. ``welke tools bestaan er voor deze toepassing?'') is dus geen onderzoeksvraag. Je kan de onderzoeksvraag verder specifiëren in deelvragen. Bv.~als je onderzoek gaat over performantiemetingen, dan 
+
+Deze bachelorproef vertrekt vanuit de centrale vraag hoe verschillende large language models presteren wanneer zij Python code genereren voor typische data analyse en ETL taken die door studenten Toegepaste Informatica aan HOGENT worden uitgevoerd. Concreet luidt de onderzoeksvraag:
+
+\textit{In welke mate verschilt de technische correctheid en betrouwbaarheid van Python code die wordt gegenereerd door verschillende LLM’s voor representatieve data analyse en ETL taken binnen de context van HOGENT studenten Toegepaste Informatica?}
+
+Deze vraag wordt verder uitgewerkt door per model en per taak na te gaan in welke mate de gegenereerde code syntactisch foutvrij is, logisch doet wat gevraagd wordt, voldoende efficiënt is en gebruikmaakt van geschikte, actuele Python bibliotheken.
+
+%Wees zo concreet mogelijk bij het formuleren van je onderzoeksvraag. Een onderzoeksvraag is trouwens iets waar nog niemand op dit moment een antwoord heeft (voor zover je kan nagaan). Het opzoeken van bestaande informatie (bv. ``welke tools bestaan er voor deze toepassing?'') is dus geen onderzoeksvraag. Je kan de onderzoeksvraag verder specifiëren in deelvragen. Bv.~als je onderzoek gaat over performantiemetingen, dan 
 
 \section{\IfLanguageName{dutch}{Onderzoeksdoelstelling}{Research objective}}%
 \label{sec:onderzoeksdoelstelling}
 
-Wat is het beoogde resultaat van je bachelorproef? Wat zijn de criteria voor succes? Beschrijf die zo concreet mogelijk. Gaat het bv.\ om een proof-of-concept, een prototype, een verslag met aanbevelingen, een vergelijkende studie, enz.
+Het doel van deze bachelorproef is om een systematische, vergelijkende studie uit te voeren van meerdere LLM’s die Python code genereren voor representatieve data analyse en ETL taken. Het beoogde resultaat is een onderbouwd inzicht in de technische correctheid en betrouwbaarheid van de gegenereerde code.
+
+Concreet zoekt het onderzoek naar drie hoofdresultaten. Ten eerste een kwantitatief overzicht per model en per taak, waarin onder meer wordt gerapporteerd hoeveel gegenereerde scripts syntactisch correct zijn, alle tests doorstaan en welke types fouten het vaakst voorkomen. Zodat de studenten een geïnformeerde beslissing kunnen nemen wanneer zij een LLM kiezen om hun te helpen bij hun data engineering taken.
+
+%Wat is het beoogde resultaat van je bachelorproef? Wat zijn de criteria voor succes? Beschrijf die zo concreet mogelijk. Gaat het bv.\ om een proof-of-concept, een prototype, een verslag met aanbevelingen, een vergelijkende studie, enz.
 
 \section{\IfLanguageName{dutch}{Opzet van deze bachelorproef}{Structure of this bachelor thesis}}%
 \label{sec:opzet-bachelorproef}
