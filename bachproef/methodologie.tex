@@ -5,26 +5,210 @@
 \chapter{\IfLanguageName{dutch}{Methodologie}{Methodology}}%
 \label{ch:methodologie}
 
-%% TODO: In dit hoofstuk geef je een korte toelichting over hoe je te werk bent
-%% gegaan. Verdeel je onderzoek in grote fasen, en licht in elke fase toe wat
-%% de doelstelling was, welke deliverables daar uit gekomen zijn, en welke
-%% onderzoeksmethoden je daarbij toegepast hebt. Verantwoord waarom je
-%% op deze manier te werk gegaan bent.
-%% 
-%% Voorbeelden van zulke fasen zijn: literatuurstudie, opstellen van een
-%% requirements-analyse, opstellen long-list (bij vergelijkende studie),
-%% selectie van geschikte tools (bij vergelijkende studie, "short-list"),
-%% opzetten testopstelling/PoC, uitvoeren testen en verzamelen
-%% van resultaten, analyse van resultaten, ...
-%%
-%% !!!!! LET OP !!!!!
-%%
-%% Het is uitdrukkelijk NIET de bedoeling dat je het grootste deel van de corpus
-%% van je bachelorproef in dit hoofstuk verwerkt! Dit hoofdstuk is eerder een
-%% kort overzicht van je plan van aanpak.
-%%
-%% Maak voor elke fase (behalve het literatuuronderzoek) een NIEUW HOOFDSTUK aan
-%% en geef het een gepaste titel.
+\section{Methodologie}%
+\label{sec:methodologie}
 
-\lipsum[21-25]
+Dit hoofdstuk beschrijft op hoofdlijnen hoe het onderzoek werd opgezet en uitgevoerd. Het doel van de methodologie is een reproduceerbaar proces te beschrijven waarmee verschillende LLM's systematisch kunnen worden geëvalueerd op de kwaliteit van hun Python code voor data analyse en ETL taken. Het onderzoeksontwerp is geïnspireerd door bestaande evaluatiekaders voor LLM codegeneratie, waarin een verzameling van programmeerproblemen wordt gekoppeld aan een geautomatiseerde evaluatiepipeline en aangevuld met manuele beoordeling voor aspecten die moeilijk automatisch te meten zijn \autocite{Li2023,Ni2024,LopezEspejel2025}. De eigenlijke verzameling van taken, de gedetailleerde resultaten en de codevoorbeelden worden verder uitgewerkt in de daaropvolgende hoofdstukken. In dit hoofdstuk wordt een concreet overzicht gegeven van de gekozen casussen, de gebruikte prompts, de inputdata, de verwachte output en de gehanteerde evaluatiemethode.
 
+\section{Fase 1: Literatuurstudie en afbakening van het takenpakket}
+
+De eerste fase bestond uit een gerichte literatuurstudie naar de betrouwbaarheid van LLM gegenereerde code, bestaande benchmarks en evaluatiemetrics voor codegeneratie en typische data analyse en ETL taken in Python die relevant zijn voor studenten Toegepaste Informatica \autocite{Li2023,Esfahani2024,Ni2024}. Op basis van deze studie werden de kwaliteitscriteria voor de evaluatie afgebakend. De code werd beoordeeld op syntactische correctheid, semantische correctheid, beveiliging, uitvoerbaarheid, performantie, complexiteit, onderhoudbaarheid en functionele correctheid.
+
+Deliverable in deze fase is een duidelijk gedefinieerd takenpakket van 35 representatieve Python opdrachten die typische data engineering activiteiten weerspiegelen. Deze opdrachten werden verdeeld over 8 categorieën: data cleaning, data transformation, joins en aggregation, performance optimization, data loading, data validation, data filtering en time series. Voor elke casus werden een natuurlijke taalprompt, inputdata en verwachte output geformuleerd, in lijn met de manier waarop codegeneratiebenchmarks zoals HumanEval en vergelijkbare studies hun problemen structureren \autocite{Ni2024,LopezEspejel2025}. Deze casussen vormen de basis voor de latere automatische en manuele evaluatie.
+
+\subsection{Overzicht van de casuscategorieën}
+
+De 35 evaluatiecasussen werden als volgt verdeeld:
+
+\begin{itemize}
+    \item 14 casussen rond data cleaning.
+    \item 6 casussen rond data transformation.
+    \item 5 casussen rond joins en aggregation.
+    \item 4 casussen rond performance optimization.
+    \item 2 casussen rond data loading.
+    \item 2 casussen rond data validation.
+    \item 1 casus rond data filtering.
+    \item 1 casus rond time series.
+\end{itemize}
+
+Deze verdeling werd gekozen om zowel veelvoorkomende als iets complexere data engineering scenario's af te dekken. De casussen zijn bovendien ontworpen om typische fouten in LLM gegenereerde code zichtbaar te maken, zoals foutieve datatypeconversies, onvolledige randgevalafhandeling, inefficiënte implementaties en onveilige codeconstructies.
+
+\subsection{Voorbeeldcasussen}
+
+Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus bestaat uit een prompt, een inputbestand, een verwachte output en een selectie van evaluatiecriteria.
+
+\subsubsection*{Casus 1: Missing Value Imputation}
+
+\textbf{Categorie:} Data Cleaning
+
+\textbf{Prompt:} Schrijf een Python script dat een CSV bestand inleest en missing values behandelt. Vul numerieke kolommen met het gemiddelde, categorische kolommen met de modus. Sla op naar output.csv.
+
+\textbf{Inputdata:} \texttt{input.csv} met de kolommen \texttt{name}, \texttt{age} en \texttt{city}, waarbij enkele \texttt{age} en \texttt{city} waarden ontbreken.
+
+\textbf{Verwachte output:}
+\begin{itemize}
+    \item Numerieke kolom \texttt{age} heeft missing values ingevuld met het gemiddelde.
+    \item Categorische kolom \texttt{city} heeft missing values ingevuld met de modus.
+    \item Het resultaatbestand bevat geen null waarden meer.
+\end{itemize}
+
+\textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness.
+
+\subsubsection*{Casus 2: Duplicate Removal}
+
+\textbf{Categorie:} Data Cleaning
+
+\textbf{Prompt:} Schrijf een Python script dat duplicaten verwijdert op basis van de combinatie \texttt{user\_id} en \texttt{order\_id}. Behoud de rij met de nieuwste timestamp. Sla op naar output.csv.
+
+\textbf{Inputdata:} \texttt{input.csv} met vier rijen, waaronder één duplicaat op basis van \texttt{user\_id} en \texttt{order\_id}.
+
+\textbf{Verwachte output:}
+\begin{itemize}
+    \item Exact drie rijen in de output.
+    \item Correcte verwerking van datetime waarden.
+    \item De rij met de meest recente timestamp wordt bewaard.
+\end{itemize}
+
+\textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness.
+
+\subsubsection*{Casus 3: Handle Mixed Numeric Formats}
+
+\textbf{Categorie:} Data Cleaning, edge case
+
+\textbf{Prompt:} Schrijf een Python script dat gemixte numerieke formaten opschoont. Verwijder \texttt{\$} en komma's uit \texttt{price}, verwijder \texttt{\%} uit \texttt{percentage} en \texttt{^\circ C} uit \texttt{temperature}. Converteer alles naar \texttt{float}.
+
+\textbf{Inputdata:} \texttt{input.csv} met waarden zoals \texttt{\$1,250.00}, \texttt{50\%} en \texttt{25^\circ C}.
+
+\textbf{Verwachte output:}
+\begin{itemize}
+    \item \texttt{price} wordt geconverteerd naar \texttt{float}.
+    \item \texttt{percentage} wordt geconverteerd naar een numerieke waarde.
+    \item \texttt{temperature} wordt geconverteerd naar \texttt{float}.
+\end{itemize}
+
+\textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness, edge case handling.
+
+\subsubsection*{Casus 4: Handle Null Like Values}
+
+\textbf{Categorie:} Data Cleaning, edge case
+
+\textbf{Prompt:} Schrijf een Python script dat null like waarden behandelt. \texttt{N/A}, \texttt{null}, \texttt{NULL}, \texttt{NaN}, \texttt{-} en lege strings worden allemaal als missing values beschouwd en geconverteerd naar echte \texttt{NaN} waarden.
+
+\textbf{Inputdata:} \texttt{input.csv} met verschillende null like representaties.
+
+\textbf{Verwachte output:}
+\begin{itemize}
+    \item Alle null like waarden worden geconverteerd naar echte missing values.
+    \item Missing leeftijden worden aangevuld met het gemiddelde.
+    \item Rijen met lege steden worden verwijderd.
+\end{itemize}
+
+\textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness, edge case handling.
+
+
+
+\section{Fase 2: Opzetten van de automatische evaluatiepipeline}
+
+In de tweede fase werd een automatische evaluatiepipeline ontwikkeld die de kern van het onderzoek vormt. Deze pipeline volgt conceptueel dezelfde driedelige structuur als voorgestelde frameworks voor code evaluatie: probleemvoorbereiding, modeluitvoering en codeanalyse \autocite{Li2023,LopezEspejel2025}. Alle taken en bijbehorende tests werden geïmplementeerd in Python, met gebruik van een testframework voor functionele verificatie.
+
+De uitvoering van de verschillende LLM’s gebeurde lokaal via Ollama, zodat meerdere modellen op een uniforme manier konden worden aangesproken zonder voor elk model een aparte integratie te moeten ontwikkelen. Voor elk model en elke taak genereerde de pipeline een vast aantal oplossingen door dezelfde prompt meerdere keren aan het model aan te bieden. De gegenereerde code werd automatisch opgeslagen als aparte Python bestanden, waarna de pipeline voor elke oplossing de volgende stappen doorliep:
+
+\begin{itemize}
+\item syntaxiscontrole via AST parsing;
+\item semantische en style controle via Ruff;
+\item security analyse via Bandit;
+\item meting van uitvoeringstijd, CPU gebruik en geheugenverbruik tijdens executie op een vaste dataset;
+\item analyse van complexiteit en onderhoudbaarheid via Radon;
+\item functionele tests om te controleren of de verwachte output correct werd gegenereerd.
+\end{itemize}
+
+De resultaten van deze automatische evaluatie, bijvoorbeeld geslaagd of niet geslaagd, aantal tests geslaagd en type fouten, werden gestructureerd opgeslagen in een tabelvormig formaat zodat latere analyse mogelijk bleef. De deliverable van deze fase is een werkende, gedeeltelijk geautomatiseerde evaluatieomgeving die met minimale handmatige tussenkomst meerdere modellen en runs kan verwerken, vergelijkbaar met de volledig automatische processen die in recente evaluatiestudies worden voorgesteld \autocite{Li2023,LopezEspejel2025}.
+
+
+\section{Fase 3: Vergelijking van modellen}
+
+In de derde fase werden de verzamelde gegevens geanalyseerd per model, per taak en over alle runs heen. De aanpak volgt de manier waarop vergelijkende studies prestaties van codegeneratiemodellen rapporteren, met aandacht voor succesratio's, types fouten en variabiliteit \autocite{Li2023,Ni2024}. Voor elk model werden onder meer de volgende grootheden berekend:
+
+\begin{itemize}
+\item percentage oplossingen zonder syntaxisfouten;
+\item percentage oplossingen die alle tests doorstaan;
+\item verdeling van fouttypes, waaronder syntaxis, logica, API gebruik, performantie en security;
+\item gemiddelde scores op de manuele beoordelingscriteria;
+\item vergelijking tussen lichte en zware casussen, bijvoorbeeld op basis van inputgrootte en taakcomplexiteit.
+\end{itemize}
+
+Deze resultaten werden visueel samengevat in tabellen en grafieken en vormden de basis voor de beantwoording van de onderzoeksvraag en deelvragen. Parallel hiermee werd op basis van de geobserveerde patronen een praktisch evaluatiekader ontwikkeld, dat bestaat uit aanbevelingen voor teststrategieën bij data analyse en ETL taken en richtlijnen voor het kiezen en gebruiken van modellen via Ollama in een onderwijscontext. De deliverables van deze fase zijn de geanalyseerde resultaten en de daaruit afgeleide aanbevelingen. Deze opbouw sluit aan bij eerdere raamwerken in de literatuur, maar is specifiek afgestemd op Python gebaseerde data engineering taken en op de praktijkcontext van HOGENT \autocite{LopezEspejel2025}.
+
+\section{Samenvatting van de onderzoekscasussen}
+
+De 35 casussen dekken samen alle data engineering aspecten uit hoofdstuk 2 als concrete benchmarks. Per casus worden zowel functionele correctheid als codekwaliteit getest, met specifieke aandacht voor syntax, semantiek, security, performantie en onderhoudbaarheid. Door de casussen expliciet te koppelen aan prompts, inputdata en verwachte output ontstaat een reproduceerbare onderzoeksopzet waarmee de prestaties van verschillende LLM's objectief kunnen worden vergeleken.
+
+\begin{itemize}
+\item \textbf{Syntax:} controle via AST parsing.
+\item \textbf{Semantische correctheid:} controle via Ruff.
+\item \textbf{Security:} controle via Bandit.
+\item \textbf{Execution:} controle via runtime tests.
+\item \textbf{Performance:} controle via CPU en geheugengebruik.
+\item \textbf{Radon:} controle van cyclomatische complexiteit en onderhoudbaarheid.
+\item \textbf{Functional:} controle van de verwachte output.
+\end{itemize}
+
+Deze aanpak levert een representatief beeld op van welk LLM model de beste code genereert voor realistische data engineering taken, en laat tegelijk toe om te analyseren in welke situaties modellen falen of extra begeleiding nodig hebben.
+
+
+
+\subsection{Resultaten}
+\label{subsec:resultaatvisualisatie}
+
+Om de resultaten overzichtelijk en vergelijkbaar voor te stellen, worden in dit hoofdstuk meerdere grafieken opgenomen die de prestaties van de geëvalueerde modellen visualiseren. Deze figuren ondersteunen de kwantitatieve analyse van de benchmark en maken het mogelijk om verschillen tussen modellen, taken en kwaliteitscriteria in één oogopslag te interpreteren.
+
+De figuren geven onder meer een overzicht van de algemene evaluatievergelijking, de prestaties per taak, de onderhoudbaarheid van de gegenereerde code, de omvang van de oplossingen, de uitvoeringstijden, de vastgestelde security issues. Samen vormen deze grafieken een visuele samenvatting van de belangrijkste onderzoeksresultaten en ondersteunen ze de interpretatie van de evaluatie op syntactisch, functioneel en kwalitatief vlak.
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{01_evaluator_comparison}
+    \caption{Vergelijking van de evaluatieresultaten per model.}
+    \label{fig:01_evaluator_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{task_performance}
+    \caption{Prestatie van de modellen per taak.}
+    \label{fig:task_performance}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{maintainability}
+    \caption{Onderhoudbaarheid van de gegenereerde code.}
+    \label{fig:maintainability}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{lines_of_code}
+    \caption{Aantal regels code per gegenereerde oplossing.}
+    \label{fig:lines_of_code}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{execution_times}
+    \caption{Uitvoeringstijden van de gegenereerde oplossingen.}
+    \label{fig:execution_times}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{security_issues}
+    \caption{Gevonden veiligheidsproblemen in de gegenereerde code.}
+    \label{fig:security_issues}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    % \includegraphics[width=0.9\linewidth]{model_ranking}
+    \caption{Rangschikking van de modellen op basis van de overall prestatie.}
+    \label{fig:model_ranking}
+\end{figure}

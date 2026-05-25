@@ -9,7 +9,7 @@
 \documentclass{hogent-article}
 
 % Invoegen bibliografiebestand
-\addbibresource{voorstel.bib}
+\addbibresource{./voorstel.bib}
 
 % Informatie over de opleiding, het vak en soort opdracht
 \studyprogramme{Professionele bachelor toegepaste informatica}
@@ -20,14 +20,15 @@
 % \course{Bachelor thesis}
 % \assignmenttype{Research proposal}
 
-\academicyear{2022-2023} % TODO: pas het academiejaar aan
+\academicyear{2025-2026} % TODO: pas het academiejaar aan
 
 % TODO: Werktitel
-\title{Vul hier de voorgestelde titel van je onderzoek in}
+\title{Op welke manier verschilt de betrouwbaarheid en technische correctheid van Python code die wordt gegenereerd door verschillende LLM’s binnen het domein van data analyse en ETL processen?}
+}
 
 % TODO: Studentnaam en emailadres invullen
-\author{Ernst Aarden}
-\email{ernst.aarden@student.hogent.be}
+\author{Renaud Vermeiren}
+\email{renaud.vermeiren@student.hogent.be}
 
 % TODO: Medestudent
 % Gaat het om een bachelorproef in samenwerking met een student in een andere
@@ -36,7 +37,9 @@
 % \email{yasmine.alaoui@student.hogent.be}
 
 % TODO: Geef de co-promotor op
-\supervisor[Co-promotor]{S. Beekman (Synalco, \href{mailto:sigrid.beekman@synalco.be}{sigrid.beekman@synalco.be})}
+\supervisor[Promotor]{J. Decorte (\href{mailto:johan.decorte@hogent.be
+    }{johan.decorte@hogent.be
+    })}
 
 % Binnen welke specialisatierichting uit 3TI situeert dit onderzoek zich?
 % Kies uit deze lijst:
@@ -49,20 +52,120 @@
 % - Als het onderzoek niet past binnen een van deze domeinen specifieer je deze
 %   zelf
 %
-\specialisation{Mobile \& Enterprise development}
-\keywords{Scheme, World Wide Web, $\lambda$-calculus}
+
+\specialisation{AI \& Data Engineering}
+\keywords{LLM's, python}
 
 \begin{document}
 
 \begin{abstract}
-  Hier schrijf je de samenvatting van je voorstel, als een doorlopende tekst van één paragraaf. Let op: dit is geen inleiding, maar een samenvattende tekst van heel je voorstel met inleiding (voorstelling, kaderen thema), probleemstelling en centrale onderzoeksvraag, onderzoeksdoelstelling (wat zie je als het concrete resultaat van je bachelorproef?), voorgestelde methodologie, verwachte resultaten en meerwaarde van dit onderzoek (wat heeft de doelgroep aan het resultaat?).
+    
+Binnen de opleiding Toegepaste Informatica aan HOGENT maken studenten frequent gebruik van generative AI assistenten zoals ChatGPT, Copilot, Gemini en Perplexity voor het genereren van Python code in data analyse en data engineering contexten. Hoewel deze gegenereerde code vaak op het eerste gezicht correct en bruikbaar lijkt, tonen studies aan dat LLM output regelmatig lijdt aan subtiele defecten, inefficiënties en gebrek aan robuustheid, wat leidt tot het onkritisch overnemen van suboptimale oplossingen en een verminderd inzicht in essentiële programmeerconcepten. Dit onderzoeksvoorstel formuleert als centrale vraag hoe de betrouwbaarheid en technische correctheid van Python code gegenereerd door verschillende LLM's verschilt binnen het domein van data analyse en ETL processen. Het doel is om via een vergelijkende experimentele studie de kwaliteit van LLM gegenereerde code systematisch te evalueren op criteria als syntaxis, logica, efficiëntie en library gebruik, en deze inzichten te vertalen naar een concreet evaluatiekader. De methodologie omvat een literatuurstudie naar bestaande benchmarks en classificatiesystemen, gevolgd door een gecontroleerd experiment waarbij diverse LLM's worden getest op representatieve data engineering taken, geëvalueerd via geautomatiseerde tests en statische analyse. De verwachte resultaten zijn een gedetailleerd overzicht van de sterktes en zwaktes van specifieke modellen voor data taken, en vooral een praktisch toepasbare set richtlijnen en checklists die studenten en beginnende IT professionals in staat stellen om AI assistenten kritischer, veiliger en effectiever in te zetten in hun projecten en toekomstige werkomgeving.
 \end{abstract}
 
 \tableofcontents
 
 % De hoofdtekst van het voorstel zit in een apart bestand, zodat het makkelijk
 % kan opgenomen worden in de bijlagen van de bachelorproef zelf.
-\input{voorstel-inhoud}
+%---------- Inleiding ---------------------------------------------------------
+
+% TODO: Is dit voorstel gebaseerd op een paper van Research Methods die je
+% vorig jaar hebt ingediend? Heb je daarbij eventueel samengewerkt met een
+% andere student?
+% Zo ja, haal dan de tekst hieronder uit commentaar en pas aan.
+
+%\paragraph{Opmerking}
+
+% Dit voorstel is gebaseerd op het onderzoeksvoorstel dat werd geschreven in het
+% kader van het vak Research Methods dat ik (vorig/dit) academiejaar heb
+% uitgewerkt (met medesturent VOORNAAM NAAM als mede-auteur).
+% 
+
+\section{Inleiding}%
+\label{sec:inleiding}
+
+Steeds meer studenten Toegepaste Informatica aan HOGENT gebruiken LLM's zoals ChatGPT, Copilot, Gemini en Perplexity om Python code te genereren voor data analyse en ETL processen.  Hoewel deze code vaak professioneel lijkt op eerste zicht, bevat ze subtiele fouten, inefficiënties of verouderde bibliotheken, wat studenten zonder kritisch na te denken overnemen en hun leerproces belemmert \autocite{Zhong2023}. Deze bachelorproef richt zich op dit concrete thema bij HOGENT studenten die Python inzetten voor data analyse, databases en AI toepassingen.
+
+De centrale onderzoeksvraag is daarom als volgt: \textit{Op welke manier verschilt de betrouwbaarheid en technische correctheid van Python code die wordt gegenereerd door verschillende LLM’s binnen het domein van data analyse en ETL processen voor studenten Toegepaste Informatica aan HOGENT?} Het onderzoeksdoel is om via toegepast onderzoek de kwaliteit van LLM gegenereerde Python code te evalueren op vlak van syntaxis, logica, efficiëntie en gebruik van bibliotheken. Op basis van deze analyse wil de bachelorproef een concreet, herbruikbaar evaluatiekader en een set praktische aanbevelingen opleveren (zoals checklists, teststrategieën en good practices) waarmee studenten LLM’s bewuster en betrouwbaarder kunnen inzetten in data engineeringcontexten, zodat de scriptie resulteert in zowel wetenschappelijk onderbouwde inzichten als een direct toepasbaar rapport voor onderwijs en bedrijfspraktijk \autocite{Esfahani2024}. \newpage
+
+Om deze onderzoeksvraag te beantwoorden, worden de volgende concrete deelvragen geformuleerd:
+
+\paragraph{Deelvragen met betrekking tot het \textbf{probleemdomein}}
+\begin{itemize}
+    \item Hoe vaak bevat door LLM’s gegenereerde Python code syntaxis  of runtimefouten binnen typische data analyse en ETL taken?
+    \item In welke mate maken LLM’s gebruik van verouderde of inefficiënte Python functies, zoals verkeerde pandas functies of niet optimale operaties?
+    \item Hoe verschillen de uitvoerbaarheid en logische correctheid van de code tussen verschillende LLM’s (ChatGPT, Copilot, Gemini en Perplexity)?
+    \item Hoe consistent is de gegenereerde output wanneer dezelfde prompt meermaals aan hetzelfde model wordt voorgelegd?
+\end{itemize}
+
+\paragraph{Deelvragen met betrekking tot het \textbf{oplossingsdomein}}
+\begin{itemize}
+    \item Welke evaluatiecriteria en testmethodes zijn het meest effectief om de betrouwbaarheid van LLM-gegenereerde Python-code objectief te beoordelen?
+    \item Welke types fouten (syntaxis, logica, bibliotheekgebruik of inefficiëntie) komen het meest voor binnen data-analyse- en ETL-contexten?
+    \item Hoe kan een praktisch evaluatiekader worden ontwikkeld waarmee studenten de technische correctheid van LLM-code systematisch kunnen controleren?
+    \item Welke richtlijnen en waarschuwingen kunnen studenten helpen om LLM’s kritischer en betrouwbaarder te gebruiken in toekomstige data-engineeringprojecten?
+\end{itemize}
+
+
+
+%---------- Stand van zaken ---------------------------------------------------
+
+\section{Literatuurstudie}%
+\label{sec:literatuurstudie}
+\subsection{Betrouwbaarheid van LLM gegenereerde code}
+
+Onderzoek naar de betrouwbaarheid van code gegenereerd door large language models toont aan dat hoewel moderne LLM's goede functionele correctheid kunnen bereiken, ze toch nog tekortkomingen vertonen in efficiëntie en foutafhandeling. \textcite{Zhong2023} tonen aan in hun studie naar robuustheid en betrouwbaarheid van LLM codegeneratie dat de meeste modellen gevoelig zijn voor subtiele variaties in prompts en dat gegenereerde code vaak faalt bij randgevallen die niet expliciet in de specificatie worden genoemd. Deze bevindingen worden ondersteund door \textcite{Esfahani2024} die in hun analyse van defecten in gegenereerde code aantonen dat meer dan 40 procent van de geproduceerde codefragmenten minstens een fout bevat, waarbij functionele en logische fouten regelmatiger voorkomen dan alleen syntaxisfouten. Het L2CEval framework van \textcite{Zhong2023} bevestigt deze observaties door te laten zien dat prestaties sterk variëren tussen verschillende LLM's en programmeertaken, met name bij complexe problemen die multiple reasoning stappen vereisen. Deze studies maken duidelijk dat "plausibele" code niet gelijkstaat aan technisch correcte code, wat belangrijk is voor de context waarin studenten deze tools gebruiken zonder voldoende te controleren.
+
+
+\subsection{Evaluatie van codekwaliteit in data engineering context}
+
+Data engineering en ETL processen stellen specifieke voorwaarden aan codekwaliteit, waaronder correcte API gebruik, efficiënte tijdscomplexiteit en robuuste foutafhandeling bij streaming data. Bestaande evaluatiekaders zoals L2CEval van \textcite{Zhong2023} testen voornamelijk algemene programmeervaardigheden en bieden geen specifieke benchmarks voor Python bibliotheken zoals pandas, SQLAlchemy of Numpy die centraal staan in data engineering. \textcite{Zhong2023} wijzen erop dat de meeste robuustheidstesten zich richten op algemene codepatronen en niet op domeinspecifieke fouten zoals incorrecte data type conversies of verouderde API calls in data processing pipelines. \textcite{Esfahani2024} classificeren defecten in gegenereerde code maar analyseren niet hoe deze defecten zich manifesteren in concrete data engineeringtaken. Dit creëert een onvolledigheid: hoewel de betrouwbaarheidsproblemen van LLM's beschreven zijn, ontbreekt een concrete evaluatie van LLM output specifiek voor data analyse en ETL taken in een onderwijscontext. De voorliggende bachelorproef vult deze onvolledigheid door de kwaliteit van LLM gegenereerde Python code te evalueren in echte data engineeringscenario's en een praktisch evaluatiekader te ontwikkelen dat aansluit bij de specifieke behoeften van HOGENT studenten.
+
+%---------- Methodologie ------------------------------------------------------
+\section{Methodologie}%
+\label{sec:methodologie}
+
+Het onderzoek volgt de structuur van een vergelijkende studie van LLM gegenereerde Python code in een afgebakend data engineering domein (data analyse en ETL), aangevuld met een gerichte literatuurstudie ter onderbouwing van evaluatiecriteria en defectcategorieën. De literatuurstudie levert een overzicht van bestaande evaluatiekaders (zoals L2CEval) en defectanalyses van LLM code, die worden vertaald naar concrete, meetbare metrics voor syntactische correctheid, logische juistheid, efficiëntie en gebruik van (al dan niet verouderde) bibliotheken in Python scripts voor data analyse en ETL processen. Op basis van deze inzichten wordt een set representatieve taken en prompts ontworpen die typische data engineeringproblemen weerspiegelen, bijvoorbeeld het inlezen, transformeren en wegschrijven van datasets, het joinen van tabellen en het implementeren van eenvoudige aggregaties \autocite{Ni2024}.​
+
+Vervolgens wordt een gecontroleerd experiment opgezet waarbij voor elke taak dezelfde prompt wordt aangeboden aan meerdere LLM’s (ChatGPT, Copilot, Gemini en Perplexity), met een vooraf vastgelegd aantal runs per model om ook variabiliteit tussen runs te kunnen analyseren. De output bestaat telkens uit Python scripts die in een gescheiden testomgeving automatisch worden uitgevoerd en geëvalueerd. De evaluatie gebeurt in drie stappen: (1) automatische checks op syntaxis en runtime fouten via testcases en unit tests; (2) statische analyse op gebruik van verouderde of inefficiënte patronen (bijvoorbeeld via linters, type checkers en performance profilers); en (3) manuele code review aan de hand van een vooraf gedefinieerde checklist afgeleid uit de literatuur over LLM code defecten. De resultaten worden geanalyseerd per model en per taak en vervolgens samengevat in tabellen en grafieken \autocite{Esfahani2024}.​
+
+Er wordt expliciet een vergelijking gemaakt tussen meerdere LLM’s op basis van objectieve, herhaalbare metingen. De technische diepgang komt tot uiting in het opzetten van een realistische data engineering testomgeving, het definiëren van robuuste automatisering voor testen en profiling, en het systematisch classificeren van defecten volgens een wetenschappelijk onderbouwd schema. Als tools worden onder andere gebruikt: Python 3.12, relevante data engineering bibliotheken (pandas, eventueel SQL drivers of ORM), een testframework (pytest), statische analyse tooling (flake8, pylint, mypy), en eventueel een profiler (bijvoorbeeld time en memory profiling in Python). De LLM’s worden benaderd via hun officiële webinterfaces of API’s, afhankelijk van de toegankelijke licenties \autocite{Nascimento2024}.​
+
+
+\subsection{Planning en deliverables} \begin{equation}
+    eqn
+\end{equation}
+
+Het onderzoek wordt opgedeeld in fasen met bijhorende deliverables.
+
+\begin{itemize}
+    \item \textbf{Fase 1: Literatuurstudie en definitie van evaluatiekader} (week 1--3)\\
+    In deze fase wordt de relevante vakliteratuur rond LLM codegeneratie, defectclassificatie en bestaande benchmarks (zoals L2CEval) in detail bestudeerd en samengevat. Op basis hiervan worden de defectcategorieën, kwaliteitscriteria (syntaxis, logica, efficiëntie, bibliotheekgebruik) en de uiteindelijke metrics voor de experimenten vastgelegd. \textbf{Deliverable}: een kort ontwerpdocument met een overzicht van de gekozen criteria, defectcategorieën en de lijst van data analyse en ETL taken die in het onderzoek zullen worden gebruikt.
+    
+    \item \textbf{Fase 2: Ontwerp en implementatie van de test omgeving} (week 4--7)\\
+    In deze fase worden de datasets, Python scripts voor testautomatisering, unit tests, statische analyse scripts en het bijhouden van de resultaten opgezet. De prompts voor alle geselecteerde taken worden definitief uitgewerkt en getest in een proefopstelling met één LLM. \textbf{Deliverable}: een werkende testomgeving (pytest suite, linters, profilerconfiguratie) en een eerste pilootrapport met testresultaten voor een beperkte subset van taken.
+    
+    \item \textbf{Fase 3: Uitvoeren van de vergelijkende testen} (week 8--11)\\
+    Voor elke taak wordt dezelfde prompt meerdere keren aangeboden aan de geselecteerde LLM’s (ChatGPT, Copilot, Gemini en Perplexity), volgens een vastgelegd protocol. De gegenereerde Python code wordt automatisch uitgevoerd en geëvalueerd met de in fase 2 ontwikkelde tools. \textbf{Deliverable}: een gestructureerde dataset (bijvoorbeeld in CSV of een database) met alle meetresultaten per model en per taak, aangevuld met grafieken en tabellen die de verschillen in betrouwbaarheid en efficiëntie visualiseren.
+    
+    \item \textbf{Fase 4: Analyse, conclusies en opstellen van evaluatiekader} (week 12--14)\\
+    In deze fase worden de resultaten statistisch en inhoudelijk geanalyseerd in functie van de onderzoeksvraag en deelvragen. Op basis daarvan wordt het evaluatiekader gemaakt en vertaald naar een proof of concept checklist en praktische richtlijnen voor studenten.
+\end{itemize}
+
+
+%---------- Verwachte resultaten ----------------------------------------------
+\section{Verwacht resultaat, conclusie}%
+\label{sec:verwachte_resultaten}
+
+Op basis van de literatuur rond LLM codekwaliteit wordt verwacht dat de onderzochte LLM's (ChatGPT, Copilot, Gemini en Perplexity) in staat zullen zijn om voor de meeste data engineeringtaken syntactisch correcte Python code te genereren, maar dat er aanzienlijke verschillen zullen optreden in de semantische correctheid en efficiëntie van de oplossingen. Specifiek wordt de hypothese gesteld dat modellen vaker falen bij complexere ETL scenario's (zoals het correct afhandelen van randgevallen bij data cleaning of het efficiënt verwerken van grote datasets) en dat ze regelmatig gebruikmaken van verouderde bibliotheken of niet optimale programmeer patronen (bijvoorbeeld het inefficiënt itereren over pandas DataFrames in plaats van vectorisatie) \autocite{Esfahani2024}. Daarnaast wordt verwacht dat er een verschil zal zijn tussen verschillende runs van dezelfde prompt, wat wijst op een gebrek aan deterministische betrouwbaarheid.
+
+De concrete meerwaarde van dit onderzoek voor de doelgroep (studenten Toegepaste Informatica aan HOGENT) ligt in de ontwikkeling van een domeinspecifiek evaluatiekader en praktische richtlijnen. De verwachte deliverables zijn:
+\begin{itemize}
+    \item Een vergelijkend overzicht van de prestaties van verschillende LLM's op specifieke data engineeringtaken, wat studenten helpt bij het kiezen van de juiste tool voor hun specifieke probleemstelling.
+    \item Een catalogus van veelvoorkomende "valkuilen" en defecten in LLM gegenereerde data engineeringcode, waardoor studenten proactief kunnen controleren op deze fouten.
+    \item Een proof of concept checklist of validatiestrategie die studenten direct kunnen integreren in hun workflow om de betrouwbaarheid van gegenereerde code te verifiëren voordat ze deze in productie nemen of inleveren.
+\end{itemize}
+
 
 \printbibliography[heading=bibintoc]
 

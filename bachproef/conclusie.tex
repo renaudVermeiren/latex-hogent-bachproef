@@ -14,5 +14,62 @@
 % Heeft het onderzoek geleid tot nieuwe vragen die uitnodigen tot verder 
 %onderzoek?
 
-\lipsum[76-80]
+\section{Conclusie}
+\label{sec:conclusie}
 
+Deze bachelorproef onderzocht in welke mate verschillende large language models betrouwbare en technisch correcte Python code genereren voor representatieve data analyse en ETL taken. Op basis van de uitgevoerde benchmark kan worden geconcludeerd dat geen enkel getest model consequent sterke resultaten behaalde over alle kwaliteitscriteria heen. De beste algemene prestatie kwam van \texttt{qwen2.5-coder}, gevolgd door \texttt{deepseek-coder-v2}, terwijl \texttt{mistral} en \texttt{gemma4} duidelijk zwakker scoorden op de gecombineerde evaluatie van syntaxis, beveiliging, uitvoering, performantie, codekwaliteit en functionele correctheid. Deze verschillen zijn zichtbaar in de algemene evaluatievergelijking en de modelrangschikking in Figuur~\ref{fig:01_evaluator_comparison} en Figuur~\ref{fig:model_ranking}.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/01_evaluator_comparison.png}
+    \caption{Vergelijking van de evaluatieresultaten per model.}
+    \label{fig:01_evaluator_comparison}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/07_model_ranking.png}
+    \caption{Rangschikking van de modellen op basis van de overall prestatie.}
+    \label{fig:model_ranking}
+\end{figure}
+
+De centrale onderzoeksvraag kan daarmee beantwoord worden als volgt: de technische correctheid en betrouwbaarheid van LLM gegenereerde Python code verschilt duidelijk tussen modellen, maar zelfs de best presterende modellen halen nog geen volledig overtuigend niveau voor toepassing in realistische data analyse en ETL scenario's. \texttt{qwen2.5-coder} behaalde met 13 van de 20 taken een volledig geslaagde evaluatie, terwijl \texttt{deepseek-coder-v2} op 11 van de 20 taken slaagde. \texttt{llama3} volgde op afstand met 9 van de 20 taken, en \texttt{gemma4} en \texttt{mistral} bleven daar ver onder. Dit wijst erop dat LLM's wel bruikbare output kunnen genereren, maar dat de output nog te onstabiel is om zonder controle als eindoplossing te vertrouwen.
+
+De analyse van de deelcriteria toont bovendien aan dat functionele correctheid vaak een sterker knelpunt vormt dan syntactische geldigheid. De modellen genereerden geregeld code die wel compileerbaar of uitvoerbaar was, maar inhoudelijk toch foutieve resultaten opleverde of slechts een deel van de vereiste logica implementeerde. Dat is duidelijk zichtbaar in Figuur~\ref{fig:task_performance}, waar de verschillen tussen modellen per taak sterk uiteenlopen. Vooral voor ETL taken waarin meerdere stappen gecombineerd moeten worden, zoals inlezen, transformeren, valideren en wegschrijven, bleek de kans op fouten aanzienlijk groter dan bij eenvoudigere codegeneratieopdrachten. Dit bevestigt dat een oppervlakkige beoordeling op syntaxis alleen onvoldoende is.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/02_task_performance.png}
+    \caption{Prestatie van de modellen per taak.}
+    \label{fig:task_performance}
+\end{figure}
+
+Ook op het vlak van codekwaliteit en onderhoudbaarheid werden duidelijke verschillen vastgesteld. De figuren rond maintainability, lines of code en execution times tonen aan dat sommige modellen relatief compacte oplossingen genereren, maar dat compactheid niet automatisch leidt tot betere code. In bepaalde gevallen leverde een model korte code aan die moeilijk leesbaar of slecht uitbreidbaar was, terwijl andere modellen langere oplossingen produceerden met meer structuur maar ook meer overbodige stappen. De figuren Figuur~\ref{fig:maintainability}, Figuur~\ref{fig:lines_of_code} en Figuur~\ref{fig:execution_times} illustreren dat onderhoudbaarheid, codeomvang en uitvoertijd samen moeten worden bekeken en niet afzonderlijk mogen worden geïnterpreteerd.
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/03_maintainability.png}
+    \caption{Onderhoudbaarheid van de gegenereerde code.}
+    \label{fig:maintainability}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/04_lines_of_code.png}
+    \caption{Aantal regels code per gegenereerde oplossing.}
+    \label{fig:lines_of_code}
+\end{figure}
+
+\begin{figure}[htbp]
+    \centering
+    \includegraphics[width=0.9\linewidth]{images/05_execution_times.png}
+    \caption{Uitvoeringstijden van de gegenereerde oplossingen.}
+    \label{fig:execution_times}
+\end{figure}
+
+
+De meerwaarde van dit onderzoek voor de doelgroep ligt in het feit dat het niet enkel een vergelijking van modellen oplevert, maar ook een concreet evaluatiekader voor studenten Toegepaste Informatica aan HOGENT. Door meerdere kwaliteitsdimensies samen te beoordelen, toont deze bachelorproef aan waarop studenten moeten letten wanneer zij LLM's gebruiken voor Python code in data analyse en ETL taken. De bijdrage aan het vakgebied bestaat dus uit een praktijkgerichte, technische benchmark op een relevant toepassingsdomein, aangevuld met inzichten die bruikbaar zijn voor onderwijs en begeleiding. In die zin levert het onderzoek niet alleen modelvergelijking op, maar ook een onderbouwde basis om studenten kritischer en effectiever met generatieve AI te laten werken.
+
+Tegelijk roept het onderzoek nieuwe vragen op. Een eerste open vraag is in welke mate prompt engineering de prestaties van de modellen verder kan verbeteren, aangezien de huidige resultaten sterk afhankelijk kunnen zijn van de manier waarop een taak werd geformuleerd. Een tweede vraag is of de resultaten hetzelfde blijven bij andere temperature instellingen, andere datataken of een andere set evaluatiemodellen. Daarnaast blijft onduidelijk hoeveel van de fouten voortkomen uit modelbeperkingen en hoeveel uit de specifieke taakcomplexiteit. Dit maakt vervolgonderzoek interessant, bijvoorbeeld met een grotere verzameling ETL scenario's, meerdere promptstrategieën of een longitudinale vergelijking tussen modelversies.
+
+Samengevat toont deze bachelorproef aan dat LLM's vandaag al nuttig kunnen zijn als codegenererende assistent, maar dat hun output voor data analyse en ETL nog onvoldoende betrouwbaar is om zonder controle te gebruiken. De resultaten bevestigen daarom de nood aan een kritische, testgebaseerde aanpak bij het gebruik van generatieve AI in programmeeronderwijs en data engineering. Voor studenten Toegepaste Informatica ligt de concrete meerwaarde in het bewust leren evalueren van AI gegenereerde code in plaats van die automatisch te vertrouwen.
