@@ -75,9 +75,9 @@ Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus 
 
 \textbf{Categorie:} Data Cleaning, edge case
 
-\textbf{Prompt:} Schrijf een Python script dat gemixte numerieke formaten opschoont. Verwijder \texttt{\$} en komma's uit \texttt{price}, verwijder \texttt{\%} uit \texttt{percentage} en \texttt{^\circ C} uit \texttt{temperature}. Converteer alles naar \texttt{float}.
+\textbf{Prompt:} Schrijf een Python script dat gemixte numerieke formaten opschoont. Verwijder \texttt{\$} en komma's uit \texttt{price}, verwijder \texttt{\%} uit \texttt{percentage}. Converteer alles naar \texttt{float}.
 
-\textbf{Inputdata:} \texttt{input.csv} met waarden zoals \texttt{\$1,250.00}, \texttt{50\%} en \texttt{25^\circ C}.
+\textbf{Inputdata:} \texttt{input.csv} met waarden zoals \texttt{\$1,250.00}, \texttt{50\%}.
 
 \textbf{Verwachte output:}
 \begin{itemize}
@@ -124,6 +124,9 @@ De uitvoering van de verschillende LLM's gebeurde lokaal via Ollama, zodat meerd
 
 De resultaten van deze automatische evaluatie, bijvoorbeeld geslaagd of niet geslaagd, aantal tests geslaagd en type fouten, werden gestructureerd opgeslagen in een tabelvormig formaat zodat latere analyse mogelijk bleef. De deliverable van deze fase is een werkende, gedeeltelijk geautomatiseerde evaluatieomgeving die met minimale handmatige tussenkomst meerdere modellen en runs kan verwerken, vergelijkbaar met de volledig automatische processen die in recente evaluatiestudies worden voorgesteld \autocite{Li2023,LopezEspejel2025}.
 
+\subsection{Scope en beperkingen}
+
+Hoewel prompt engineering een belangrijk onderwerp is voor het begrijpen van LLM output \autocite{Guo2024,Yuen2025}, valt een systematische vergelijking van verschillende promptstrategieën buiten de scope van dit onderzoek. Deze bachelorproef richt zich op de evaluatie van gegenereerde codekwaliteit per model, gebruikmakend van gestandaardiseerde, natuurlijke taalprompts zonder expliciete promptingtechnieken zoals few-shot, chain-of-thought of rolgebaseerde instructies. De keuze voor uniforme prompts maakt het mogelijk om de modellen onder gelijke omstandigheden te vergelijken, maar betekent tegelijk dat de resultaten niet generaliseren naar andere promptformuleringen of strategieën. Dit vormt een beperking van het onderzoek die relevant is voor de interpretatie van de resultaten en voor het ontwerp van toekomstig onderzoek.
 
 \section{Fase 3: Vergelijking van modellen}
 
@@ -166,49 +169,42 @@ De figuren geven onder meer een overzicht van de algemene evaluatievergelijking,
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{01_evaluator_comparison}
+    \includegraphics[width=0.9\linewidth]{images/01_evaluator_comparison.png}
     \caption{Vergelijking van de evaluatieresultaten per model.}
     \label{fig:01_evaluator_comparison}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{task_performance}
+    \includegraphics[width=0.9\linewidth]{images/02_task_performance.png}
     \caption{Prestatie van de modellen per taak.}
     \label{fig:task_performance}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{maintainability}
+    \includegraphics[width=0.9\linewidth]{images/03_maintainability.png}
     \caption{Onderhoudbaarheid van de gegenereerde code.}
     \label{fig:maintainability}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{lines_of_code}
+    \includegraphics[width=0.9\linewidth]{images/04_lines_of_code.png}
     \caption{Aantal regels code per gegenereerde oplossing.}
     \label{fig:lines_of_code}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{execution_times}
+    \includegraphics[width=0.9\linewidth]{images/05_execution_times.png}
     \caption{Uitvoeringstijden van de gegenereerde oplossingen.}
     \label{fig:execution_times}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
-    % \includegraphics[width=0.9\linewidth]{security_issues}
-    \caption{Gevonden veiligheidsproblemen in de gegenereerde code.}
-    \label{fig:security_issues}
-\end{figure}
-
-\begin{figure}[htbp]
-    \centering
-    % \includegraphics[width=0.9\linewidth]{model_ranking}
+    \includegraphics[width=0.9\linewidth]{images/07_model_ranking.png}
     \caption{Rangschikking van de modellen op basis van de overall prestatie.}
     \label{fig:model_ranking}
 \end{figure}
