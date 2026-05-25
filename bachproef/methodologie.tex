@@ -124,9 +124,21 @@ De uitvoering van de verschillende LLM's gebeurde lokaal via Ollama, zodat meerd
 
 De resultaten van deze automatische evaluatie, bijvoorbeeld geslaagd of niet geslaagd, aantal tests geslaagd en type fouten, werden gestructureerd opgeslagen in een tabelvormig formaat zodat latere analyse mogelijk bleef. De deliverable van deze fase is een werkende, gedeeltelijk geautomatiseerde evaluatieomgeving die met minimale handmatige tussenkomst meerdere modellen en runs kan verwerken, vergelijkbaar met de volledig automatische processen die in recente evaluatiestudies worden voorgesteld \autocite{Li2023,LopezEspejel2025}.
 
+\subsection{Keuze voor lokale open-source modellen}
+
+De keuze om lokaal draaiende open-source modellen te gebruiken via Ollama is bewust gemaakt op basis van vier argumenten die zowel de wetenschappelijke kwaliteit als de praktische uitvoerbaarheid van dit onderzoek ondersteunen.
+
+Een eerste overweging is \textbf{reproduceerbaarheid}. Commerciële API's zoals ChatGPT of Copilot kunnen hun modelversies, parameters of beschikbaarheid wijzigen zonder voorafgaande kennisgeving, waardoor het moeilijk is om een experiment exact te herhalen. Door open source modellen lokaal te draaien heb ik volledige controle over de exacte modelversie, configuratie en uitvoeringsomgeving, wat essentieel is voor een reproduceerbare benchmark.
+
+Ten tweede speelt \textbf{kostenefficiëntie} een rol. Een vergelijkend experiment met zeven modellen, 35 taken en drie runs per taak levert 735 individuele codegeneraties op. Bij commerciële API's zou dit aanzienlijke kosten met zich meebrengen, terwijl lokale uitvoering op eigen hardware deze drempel wegneemt en het mogelijk maakt om grootschaliger te experimenteren zonder kosten beperkingen.
+
+Een derde argument is \textbf{privacy en het kunnen beheren van je eigen data}. Omdat de prompts en gegenereerde code binnen de evaluatiepipeline soms voorbeeld datasets, bestandsnamen of hypothetische scenario's bevatten, blijven deze gegevens bij lokale uitvoering volledig binnen de eigen omgeving.
+
+Tot slot is de keuze voor Ollama als uniforme interface praktisch omdat het \textbf{modelleronafhankelijke vergelijking} voorziet. Zonder Ollama zou voor elk model een aparte API-integratie nodig zijn, wat de complexiteit van de pipeline zou verhogen en de kans op implementatieverschillen tussen modellen zou introduceren. Door alle modellen via dezelfde lokale interface aan te spreken, worden externe variabelen zoveel mogelijk geëlimineerd, waardoor de observede prestatieverschillen beter toegeschreven kunnen worden aan de modellen zelf.
+
 \subsection{Scope en beperkingen}
 
-Hoewel prompt engineering een belangrijk onderwerp is voor het begrijpen van LLM output \autocite{Guo2024,Yuen2025}, valt een systematische vergelijking van verschillende promptstrategieën buiten de scope van dit onderzoek. Deze bachelorproef richt zich op de evaluatie van gegenereerde codekwaliteit per model, gebruikmakend van gestandaardiseerde, natuurlijke taalprompts zonder expliciete promptingtechnieken zoals few-shot, chain-of-thought of rolgebaseerde instructies. De keuze voor uniforme prompts maakt het mogelijk om de modellen onder gelijke omstandigheden te vergelijken, maar betekent tegelijk dat de resultaten niet generaliseren naar andere promptformuleringen of strategieën. Dit vormt een beperking van het onderzoek die relevant is voor de interpretatie van de resultaten en voor het ontwerp van toekomstig onderzoek.
+Hoewel prompt engineering een belangrijk onderwerp is voor het begrijpen van LLM output \autocite{Guo2024,Yuen2025}, valt een systematische vergelijking van verschillende promptstrategieën buiten de scope van dit onderzoek. Deze bachelorproef richt zich op de evaluatie van gegenereerde codekwaliteit per model, gebruikmakend van gestandaardiseerde, natuurlijke taalprompts zonder expliciete promptingtechnieken zoals few shot, chain of thought of rolgebaseerde instructies. De keuze voor uniforme prompts maakt het mogelijk om de modellen onder gelijke omstandigheden te vergelijken, maar betekent tegelijk dat de resultaten niet generaliseren naar andere promptformuleringen of strategieën. Dit vormt een beperking van het onderzoek die relevant is voor de interpretatie van de resultaten en voor het ontwerp van toekomstig onderzoek.
 
 \section{Fase 3: Vergelijking van modellen}
 
