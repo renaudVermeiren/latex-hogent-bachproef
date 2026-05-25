@@ -77,7 +77,7 @@ In een praktijkgericht overzichtswerk over data analyse met Python tonen \textci
 
 \textcite{Sharma2020} vergelijkt Python expliciet met andere veel gebruikte omgevingen voor data analys. Daaruit blijkt dat Python in het bijzonder voordelen biedt op het vlak van open source beschikbaarheid, community ondersteuning en hoeveelheid gespecialiseerde bibliotheken voor taken zoals datacleaning, feature engineering en model evaluatie \autocite{Sharma2020}. Hoewel andere talen en tools in bepaalde niches efficiënter of eenvoudiger kunnen zijn, concluderen \textcite{Sharma2020} dat Python in de praktijk vaak de voorkeur krijgt omdat het een goede balans biedt tussen gebruiksvriendelijkheid en technische mogelijkheden voor zowel analyse als het bouwen van ETL processen.
 
-Op basis hiervan kan worden gesteld dat Python een onderbouwde keuze is als centrale taal voor data analyse en ETL in deze bachelorproef \autocite{Kabir2024,Dixit2025,Sharma2020}. De taal wordt breed ondersteund in onderzoek en praktijk, laat toe om het volledige pad van ruwe gegevens tot analyse klare dataset in een consistente omgeving uit te werken en sluit nauw aan bij de manier waarop veel moderne data analytics en data engineering projecten worden opgezet.
+Op basis hiervan kan worden gesteld dat Python een onderbouwde keuze is als centrale taal voor data analyse en ETL in deze bachelorproef \autocite{Kabir2024,Sharma2020}. De taal wordt breed ondersteund in onderzoek en praktijk, laat toe om het volledige pad van ruwe gegevens tot analyse klare dataset in een consistente omgeving uit te werken en sluit nauw aan bij de manier waarop veel moderne data analytics en data engineering projecten worden opgezet.
 
 \subsection{Geheugenverbruik van Python bibliotheken}
 \label{sec:geheugenverbruik-python-bibliotheken}
@@ -118,39 +118,4 @@ In het licht van deze literatuur is het belangrijk te erkennen dat de trainingsd
 Samenvattend kan worden gesteld dat de huidige stand van zaken drie belangrijke inzichten oplevert. Ten eerste zijn LLM's in staat om snel plausibele Python oplossingen te genereren voor uiteenlopende programmeertaken, maar is de betrouwbaarheid van die oplossingen niet gegarandeerd \autocite{Li2023}. Ten tweede tonen defectanalyses aan dat logische fouten, API misbruik en performantieproblemen frequent voorkomen in LLM gegenereerde code en dat deze fouten niet altijd gemakkelijk te detecteren zijn door minder ervaren programmeurs \autocite{Esfahani2024}. Ten derde bestaan er wel algemene benchmarks en evaluatiekaders, maar ontbreekt een specifiek, onderwijsgericht kader dat zich richt op Python gebaseerde data analyse en ETL taken in een concrete context zoals die van HOGENT studenten \autocite{Ni2024,Nascimento2024}.
 
 Deze bachelorproef positioneert zich precies in deze leegte. Het onderzoek wil de bestaande inzichten uit robuustheidsstudies, defectanalyses en benchmarks vertalen naar een concrete set data engineering taken en evaluatiecriteria die aansluiten bij de leerdoelen en praktijk van studenten Toegepaste Informatica aan HOGENT. Door verschillende LLM's systematisch te evalueren op de kwaliteit van hun Python code voor data analyse en ETL, en de resultaten te vertalen naar een praktisch evaluatiekader en richtlijnen.
-
-
-
-\begin{figure}
-  \centering
-  \includegraphics[width=0.8\textwidth]{grail.jpg}
-  \caption[Voorbeeld figuur.]{\label{fig:grail}Voorbeeld van invoegen van een figuur. Zorg altijd voor een uitgebreid bijschrift dat de figuur volledig beschrijft zonder in de tekst te moeten gaan zoeken. Vergeet ook je bronvermelding niet!}
-\end{figure}
-
-\begin{listing}
-  \begin{minted}{python}
-    import pandas as pd
-    import seaborn as sns
-
-    penguins = sns.load_dataset('penguins')
-    sns.relplot(data=penguins, x="flipper_length_mm", y="bill_length_mm", hue="species")
-  \end{minted}
-  \caption[Voorbeeld codefragment]{Voorbeeld van het invoegen van een codefragment.}
-\end{listing}
-
-
-\begin{table}
-  \centering
-  \begin{tabular}{lcr}
-    \toprule
-    \textbf{Kolom 1} & \textbf{Kolom 2} & \textbf{Kolom 3} \\
-    $\alpha$         & $\beta$          & $\gamma$         \\
-    \midrule
-    A                & 10.230           & a                \\
-    B                & 45.678           & b                \\
-    C                & 99.987           & c                \\
-    \bottomrule
-  \end{tabular}
-  \caption[Voorbeeld tabel]{\label{tab:example}Voorbeeld van een tabel.}
-\end{table}
 
