@@ -71,7 +71,7 @@ Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus 
 
 \textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness.
 
-\subsubsection*{Casus 3: Handle Mixed Numeric Formats}
+\subsubsection*{Casus 3: Gemengde numerieke formaten}
 
 \textbf{Categorie:} Data Cleaning, edge case
 
@@ -88,17 +88,17 @@ Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus 
 
 \textbf{Geteste criteria:} syntax, semantische correctheid, uitvoerbaarheid, functional correctness, edge case handling.
 
-\subsubsection*{Casus 4: Handle Null Like Values}
+\subsubsection*{Casus 4: Null-achtige waarden}
 
 \textbf{Categorie:} Data Cleaning, edge case
 
-\textbf{Prompt:} Schrijf een Python script dat null like waarden behandelt. \texttt{N/A}, \texttt{null}, \texttt{NULL}, \texttt{NaN}, \texttt{-} en lege strings worden allemaal als missing values beschouwd en geconverteerd naar echte \texttt{NaN} waarden.
+\textbf{Prompt:} Schrijf een Python script dat null-achtige waarden behandelt. \texttt{N/A}, \texttt{null}, \texttt{NULL}, \texttt{NaN}, \texttt{-} en lege strings worden allemaal als missing values beschouwd en geconverteerd naar echte \texttt{NaN} waarden.
 
-\textbf{Inputdata:} \texttt{input.csv} met verschillende null like representaties.
+\textbf{Inputdata:} \texttt{input.csv} met verschillende null-achtige representaties.
 
 \textbf{Verwachte output:}
 \begin{itemize}
-    \item Alle null like waarden worden geconverteerd naar echte missing values.
+    \item Alle null-achtige waarden worden geconverteerd naar echte missing values.
     \item Missing leeftijden worden aangevuld met het gemiddelde.
     \item Rijen met lege steden worden verwijderd.
 \end{itemize}
@@ -134,7 +134,7 @@ Ten tweede speelt kostenefficiëntie een rol. Een vergelijkend experiment met ze
 
 Een derde argument is privacy en het kunnen beheren van je eigen data. Omdat de prompts en gegenereerde code binnen de evaluatiepipeline soms voorbeeld datasets, bestandsnamen of hypothetische scenario's bevatten, blijven deze gegevens bij lokale uitvoering volledig binnen de eigen omgeving.
 
-Tot slot is de keuze voor Ollama als uniforme interface praktisch omdat het model onafhankelijke vergelijking voorziet. Zonder Ollama zou voor elk model een aparte API integratie nodig zijn, wat de complexiteit van de pipeline zou verhogen en de kans op implementatieverschillen tussen modellen zou introduceren. Door alle modellen via dezelfde lokale interface aan te spreken, worden externe variabelen zoveel mogelijk geëlimineerd, waardoor de observeerde prestatieverschillen beter toegeschreven kunnen worden aan de modellen zelf.
+Tot slot is de keuze voor Ollama als uniforme interface praktisch omdat het model onafhankelijke vergelijking voorziet. Zonder Ollama zou voor elk model een aparte API integratie nodig zijn, wat de complexiteit van de pipeline zou verhogen en de kans op implementatieverschillen tussen modellen zou introduceren. Door alle modellen via dezelfde lokale interface aan te spreken, worden externe variabelen zoveel mogelijk geëlimineerd, waardoor de geobserveerde prestatieverschillen beter toegeschreven kunnen worden aan de modellen zelf.
 
 \subsection{Scope en beperkingen}
 
@@ -176,7 +176,7 @@ Deze aanpak levert een representatief beeld op van welk LLM model de beste code 
 
 De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met drie samples per taak. Dit resulteerde in 630 individuele code-evaluaties. De resultaten worden gevisualiseerd in de volgende figuren.
 
-\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. \texttt{qwen2.5-coder} behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon. maar bleef steken op 57,1\% voor functionele correctheid. \texttt{deepseek-coder-v2} toonde eveneens sterke syntactische en security-resultaten met een functionele score van 57,1\%. \texttt{gemma4} had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). \texttt{llama3} scoorde hoog op overall quality (96,1\%) maar liet lagere scores zien voor execution (62,9\%) en functionaliteit (41,0\%). \texttt{phi4-mini} en \texttt{mistral} scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%.
+\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. \texttt{qwen2.5-coder} behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon, maar bleef steken op 57,1\% voor functionele correctheid. \texttt{deepseek-coder-v2} toonde eveneens sterke syntactische en security-resultaten met een functionele score van 57,1\%. \texttt{gemma4} had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). \texttt{llama3} scoorde hoog op overall quality (96,1\%) maar liet lagere scores zien voor execution (62,9\%) en functionaliteit (41,0\%). \texttt{phi4-mini} en \texttt{mistral} scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%.
 
 \textbf{Figuur \ref{fig:task_performance}} visualiseert de gemiddelde kwaliteitsscore per taakcategorie. De modellen presteerden over het algemeen vergelijkbaar over de verschillende categorieën (Data Cleaning, Data Operations, Data Transformation, Joins \& Aggregation, Performance Optimization), met lichte variaties afhankelijk van de taakcomplexiteit.
 
