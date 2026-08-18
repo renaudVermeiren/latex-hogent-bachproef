@@ -29,55 +29,55 @@ De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met dri
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/01_evaluator_comparison.png}
-    \caption{Vergelijking van de evaluatieresultaten per model.}
+    \caption{Vergelijking van de gemiddelde slagingspercentages per evaluator voor alle zes modellen. De figuur toont aan dat alle modellen hoog scoren op syntax, beveiliging en onderhoudbaarheid, maar dat de functionele correctheid (29,5\% tot 58,1\%) systematisch het grootste knelpunt vormt.}
     \label{fig:01_evaluator_comparison}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/02_task_performance.png}
-    \caption{Prestatie van de modellen per taak.}
+    \caption{Gemiddelde kwaliteitsscore per taakcategorie (Data Cleaning, Data Operations, Data Transformation, Joins \& Aggregation, Performance Optimization). De modellen presteren grotendeels vergelijkbaar over de categorieën heen, met kleine variaties die samenhangen met de taakcomplexiteit.}
     \label{fig:task_performance}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/03_maintainability.png}
-    \caption{Onderhoudbaarheid van de gegenereerde code.}
+    \caption{Onderhoudbaarheidsindex (Radon) per model, weergegeven als percentage. Alle modellen behalen waarden boven 95\%, wat erop wijst dat de gegenereerde code over het algemeen goed gestructureerd en leesbaar is, ongeacht het model.}
     \label{fig:maintainability}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/04_lines_of_code.png}
-    \caption{Aantal regels code per gegenereerde oplossing.}
+    \caption{Boxplot van de code-omvang (aantal regels) per model. De figuur toont de mediaan, interkwartielafstand en uitschieters, wat inzicht geeft in hoe beknopt of uitgebreid de gegenereerde scripts per model zijn.}
     \label{fig:lines_of_code}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/05_execution_times.png}
-    \caption{Uitvoeringstijden van de gegenereerde oplossingen.}
+    \caption{Verdeling van de uitvoeringstijden (in seconden) per model. De figuur geeft inzicht in de runtime-efficiëntie van de gegenereerde code en toont of bepaalde modellen structureel tragere of snellere oplossingen produceren.}
     \label{fig:execution_times}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/07_model_ranking.png}
-    \caption{Rangschikking van de modellen op basis van de overall prestatie.}
+    \caption{Algemene rangschikking van de modellen op basis van de gemiddelde kwaliteitsscore over alle evaluatoren (exclusief functionele correctheid). Llama 3 voert de rangschikking aan met 96,1\%, gevolgd door DeepSeek Coder V2 (95,7\%) en Qwen 2.5 Coder (95,6\%).}
     \label{fig:model_ranking}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/08_sample_consistency.png}
-    \caption{Consistentie van de samples per evaluator.}
+    \caption{Consistentie van de drie gegenereerde samples per model en per evaluator. Een lagere variantie wijst op een betrouwbaardere codegeneratie. Modellen met hoge variantie produceren wisselende kwaliteit bij identieke prompts.}
     \label{fig:08_sample_consistency}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/09_generation_speed.png}
-    \caption{Generatiesnelheid van de modellen.}
+    \caption{Generatiesnelheid in tokens per seconde voor elk model, gemeten tijdens het uitvoeren van de evaluatiepipeline. De figuur toont de verschillen in verwerkingssnelheid tussen de modellen, wat relevant is voor de gebruikerservaring in een interactieve omgeving.}
     \label{fig:09_generation_speed}
 \end{figure}
