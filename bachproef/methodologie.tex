@@ -8,7 +8,7 @@
 \section{Methodologie}%
 \label{sec:methodologie}
 
-Dit hoofdstuk beschrijft op hoofdlijnen hoe het onderzoek werd opgezet en uitgevoerd. Het doel van de methodologie is een reproduceerbaar proces te beschrijven waarmee verschillende LLM's systematisch kunnen worden geëvalueerd op de kwaliteit van hun Python code voor data analyse en ETL taken. Het onderzoeksontwerp is geïnspireerd door bestaande evaluatiekaders voor LLM codegeneratie, waarin een verzameling van programmeerproblemen wordt gekoppeld aan een volledig geautomatiseerde evaluatiepipeline die de gegenereerde code systematisch beoordeelt op acht kwaliteitsdimensies \autocite{Li2023,Ni2024,LopezEspejel2025}. De eigenlijke verzameling van taken, de gedetailleerde resultaten en de codevoorbeelden worden verder uitgewerkt in de daaropvolgende hoofdstukken. In dit hoofdstuk wordt een concreet overzicht gegeven van de gekozen casussen, de gebruikte prompts, de inputdata, de verwachte output en de gehanteerde evaluatiemethode. 
+Dit hoofdstuk beschrijft op hoofdlijnen hoe het onderzoek werd opgezet en uitgevoerd. Het doel van de methodologie is een reproduceerbaar proces te beschrijven waarmee verschillende LLM's systematisch kunnen worden geëvalueerd op de kwaliteit van hun Python code voor data analyse en ETL taken. Het onderzoeksontwerp is geïnspireerd door bestaande evaluatiekaders voor LLM codegeneratie, waarin een verzameling van programmeerproblemen wordt gekoppeld aan een volledig geautomatiseerde evaluatiepipeline die de gegenereerde code systematisch beoordeelt op acht kwaliteitsdimensies \autocite{Li2023,Ni2024,LopezEspejel2025}. De eigenlijke verzameling van taken, de gedetailleerde resultaten en de codevoorbeelden worden verder uitgewerkt in de daaropvolgende hoofdstukken. In dit hoofdstuk wordt een concreet overzicht gegeven van de gekozen casussen, de gebruikte prompts, de inputdata, de verwachte output en de gehanteerde evaluatiemethode. De volledige code van de evaluatiepipeline, inclusief alle scripts, prompts en testdata, is openbaar beschikbaar via de GitHub repository: \url{https://github.com/renaudVermeiren/Onderzoek}.
 
 \section{Fase 1: Literatuurstudie en afbakening van het takenpakket}
 
@@ -18,24 +18,85 @@ De deliverable in deze fase is een duidelijk gedefinieerd takenpakket van 35 rep
 
 \subsection{Overzicht van de casuscategorieën}
 
-De 35 evaluatiecasussen werden als volgt verdeeld:
+De 35 evaluatiecasussen werden als volgt verdeeld over de categorieën:
 
 \begin{itemize}
-    \item 7 casussen rond data cleaning.
+    \item 14 casussen rond data cleaning.
     \item 6 casussen rond data transformation.
     \item 5 casussen rond joins en aggregation.
     \item 4 casussen rond performance optimization.
     \item 2 casussen rond data loading.
-    \item 5 casussen rond data validation.
-    \item 5 casussen rond data filtering.
+    \item 2 casussen rond data validation.
+    \item 1 casus rond data filtering.
     \item 1 casus rond time series.
 \end{itemize}
 
-Deze verdeling werd gekozen om zowel veelvoorkomende als iets complexere data engineering scenario's af te dekken.
+Om de resultaten genuanceerd te kunnen interpreteren, werd elke casus ook ingedeeld in een moeilijkheidsniveau op basis van objectieve criteria. Deze criteria zijn afgeleid van de structuur en vereisten van de taak in plaats van een subjectieve inschatting:
+
+\begin{itemize}
+    \item \textbf{Eenvoudig (12 casussen):} de taak gebruikt één inputbestand, vereist één tot twee standaard pandas bewerkingen (zoals inlezen, filteren of een kolom transformeren) en bevat geen conditionele logica, formaatherkenning of meervoudige verwerkingsstappen.
+    \item \textbf{Gemiddeld (20 casussen):} de taak combineert meerdere bewerkingen (bijvoorbeeld joinen gevolgd door aggregeren), vereist detectie of herkenning van datatypes of formaten, gebruikt meerdere inputbestanden of vraagt om specifieke methodekennis zoals pivot tabellen, resampling of geneste JSON verwerking.
+    \item \textbf{Moeilijk (3 casussen):} de taak vereist algoritmisch denken (zoals fuzzy matching op basis van stringsimilariteit), geheugenefficiëntie (chunked processing) of het afdwingen van een specifiek performantiepatroon (vectorized operaties zonder loops).
+\end{itemize}
+
+In Tabel~\ref{tab:casusoverzicht} wordt een volledig overzicht gegeven van alle 35 casussen met hun categorie en moeilijkheidsniveau.
+
+\begin{table}[htbp]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\begin{tabular}{cllc}
+\toprule
+\textbf{Nr} & \textbf{Casusnaam} & \textbf{Categorie} & \textbf{Niveau} \\
+\midrule
+1  & Missing Value Imputation          & Data Cleaning       & Eenvoudig \\
+2  & Drop Rows with Critical Fields    & Data Cleaning       & Eenvoudig \\
+3  & Duplicate Removal                 & Data Cleaning       & Eenvoudig \\
+4  & Normalize Date Formats            & Data Cleaning       & Gemiddeld \\
+5  & Normalize Text Fields             & Data Cleaning       & Gemiddeld \\
+6  & Outlier Removal                   & Data Cleaning       & Gemiddeld \\
+7  & Inner Join Users and Orders       & Joins               & Eenvoudig \\
+8  & Left Join with Missing Handling   & Joins               & Gemiddeld \\
+9  & Multi table Join                  & Joins               & Gemiddeld \\
+10 & Aggregation after Join            & Joins               & Gemiddeld \\
+11 & Window Function Simulation        & Data Transformation & Gemiddeld \\
+12 & Join with Filtering               & Joins               & Gemiddeld \\
+13 & Read Multiple CSVs and Concatenate & Data Loading       & Eenvoudig \\
+14 & Read JSON and Flatten              & Data Loading       & Gemiddeld \\
+15 & Write Clean Output                 & Data Cleaning      & Eenvoudig \\
+16 & Schema Validation                  & Data Validation    & Gemiddeld \\
+17 & Large Dataset GroupBy              & Performance        & Gemiddeld \\
+18 & Memory Efficient Filtering         & Performance        & Moeilijk \\
+19 & Avoid Row wise Loops               & Performance        & Gemiddeld \\
+20 & Chunked File Processing            & Performance        & Moeilijk \\
+21 & Data Type Conversion               & Data Cleaning      & Eenvoudig \\
+22 & Column Renaming and Selection      & Data Transformation & Eenvoudig \\
+23 & Create Pivot Table                 & Data Transformation & Gemiddeld \\
+24 & Complex Multi Condition Filtering  & Data Filtering     & Gemiddeld \\
+25 & Fuzzy Matching Deduplication       & Data Cleaning      & Moeilijk \\
+26 & Time Series Resampling             & Time Series        & Gemiddeld \\
+27 & Custom Data Validation             & Data Validation    & Gemiddeld \\
+28 & Split Data into Multiple Files     & Data Transformation & Eenvoudig \\
+29 & Data Normalization (Min Max)       & Data Transformation & Gemiddeld \\
+30 & Sorting and Ranking                & Data Transformation & Eenvoudig \\
+31 & Standardize Categorical Values     & Data Cleaning      & Gemiddeld \\
+32 & Handle Mixed Numeric Formats       & Data Cleaning      & Gemiddeld \\
+33 & Handle Null Like Values            & Data Cleaning      & Eenvoudig \\
+34 & Remove Whitespace and Special Chars& Data Cleaning      & Eenvoudig \\
+35 & Validate and Clean Data Ranges     & Data Cleaning      & Gemiddeld \\
+\bottomrule
+\end{tabular}
+\caption{Volledig overzicht van de 35 evaluatiecasussen met categorie en moeilijkheidsniveau}
+\label{tab:casusoverzicht}
+\end{table}
+
+De acht categorieën volgen de stappen van een typisch ETL proces (Extract, Transform, Load). Data loading omvat het inlezen uit CSV of JSON bronnen, wat overeenkomt met de Extract stap. Data cleaning, data transformation, joins, filtering en time series dekken het Transform stadium, waarin data wordt opgeschoond, hervormd, samengevoegd en gefilterd. Data validation fungeert als kwaliteitscontrole na de transformaties. Performance optimization ten slotte test of de code robuust blijft bij grotere datasets. Deze indeling sluit aan bij bestaande studies over data engineering in Python \autocite{Kabir2024,Nascimento2024,Wei2025}.
+
+Deze verdeling werd gekozen om zowel veelvoorkomende als iets complexere data engineering scenario's af te dekken. De nadruk op data cleaning en data transformation weerspiegelt het grootste aandeel van deze taken in realistische ETL processen, terwijl de moeilijkere prestatietaken en de time series casus de grenzen van wat modellen aankunnen verkennen.
 
 \subsection{Voorbeeldcasussen}
 
-Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus bestaat uit een prompt, een inputbestand, een verwachte output en een selectie van evaluatiecriteria. De inputdata voor de evaluatiecasussen bestaat uit realistische CSV-bestanden die afkomstig zijn van een concreet project: een aanwezigheidstracking systeem voor studenten op basis van WiFi-netwerklogin. Deze dataset bevat loggegevens van studenten die inloggen op het universitaire WiFi-netwerk, met velden zoals timestamp, gebruikersID, apparaattype en sessieduur. Door gebruik te maken van deze authentieke, real-world data in plaats van synthetisch gegenereerde testbestanden, wordt de validiteit van de evaluatie vergroot en worden de modellen getest op scenario's die nauw aansluiten bij daadwerkelijke data engineering taken.
+Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus bestaat uit een prompt, een inputbestand, een verwachte output en een selectie van evaluatiecriteria.
 
 \subsubsection*{Casus 1: Missing Value Imputation}
 
@@ -111,7 +172,7 @@ Onderstaande voorbeelden illustreren hoe de casussen zijn opgebouwd. Elke casus 
 
 In de tweede fase werd een automatische evaluatiepipeline ontwikkeld die de kern van het onderzoek vormt. Deze pipeline volgt conceptueel dezelfde driedelige structuur als voorgestelde frameworks voor code evaluatie: probleemvoorbereiding, modeluitvoering en codeanalyse \autocite{Li2023,LopezEspejel2025}. Alle taken en bijbehorende tests werden geïmplementeerd in Python, met gebruik van een testframework voor functionele verificatie.
 
-De uitvoering van de verschillende LLM's gebeurde lokaal via Ollama, zodat meerdere modellen op een uniforme manier konden worden aangesproken zonder voor elk model een aparte integratie te moeten ontwikkelen. De geteste modellen waren: DeepSeek Coder V2 (deepseek-coder-v2:latest), Gemma 4 (gemma4:latest), Mistral (mistral:latest), Llama 3 (llama3:latest), Qwen 2.5 Coder (qwen2.5-coder:latest) en Phi 4 Mini (phi4-mini:latest). Voor elk model en elke taak genereerde de pipeline drie oplossingen door dezelfde prompt drie keer aan het model aan te bieden, zodat ook de variabiliteit tussen runs kon worden geanalyseerd. De keuze voor meerdere generaties per taak is gebaseerd op recent onderzoek dat aantoont dat een enkele generatie een aanzienlijke variantie in de benchmarkscore kan veroorzaken, terwijl meerdere generaties de nauwkeurigheid van de schatting verbeteren en de variantie reduceren \autocite{Zhang2026}. Door drie samples per taak te nemen wordt een representatiever beeld verkregen van de werkelijke prestaties van het model. Elke generatie gebeurde met een temperatuur van 0,2. Deze keuze is gebaseerd op onderzoek van Arora et al. (2024), dat op basis van 14.742 gegenereerde Python-codefragmenten aantoont dat temperaturen onder 0,5 optimaal zijn voor codegeneratie \autocite{Arora2024}. Een lage temperatuur verscherpt de kansverdeling van het model, waardoor het voornamelijk de meest waarschijnlijke tokens selecteert. \textcite{Chen2021} tonen aan dat deze deterministischere generatiestrategie de kans op syntactisch correcte en coherente code vergroot. Tegelijk blijft er bij temperatuur 0,2 voldoende diversiteit over om betekenisvolle variatie tussen samples te observeren. Om de reproduceerbaarheid te waarborgen werd voor elke taak gebruikgemaakt van drie vaste seed-waarden (42, 43 en 44), zodat de gegenereerde sample-set bij een herhaling van het experiment exact kan worden gereproduceerd. De gegenereerde code werd automatisch opgeslagen als aparte Python bestanden, waarna de pipeline voor elke oplossing de volgende stappen doorliep:
+De uitvoering van de verschillende LLM's gebeurde lokaal via Ollama, zodat meerdere modellen op een uniforme manier konden worden aangesproken zonder voor elk model een aparte integratie te moeten ontwikkelen. De geteste modellen waren: DeepSeek Coder V2 (deepseek-coder-v2:latest), Gemma 4 (gemma4:latest), Mistral (mistral:latest), Llama 3 (llama3:latest), Qwen 2.5 Coder (qwen2.5-coder:latest) en Phi 4 Mini (phi4-mini:latest). Voor elk model en elke taak genereerde de pipeline drie oplossingen door dezelfde prompt drie keer aan het model aan te bieden, zodat ook de variabiliteit tussen runs kon worden geanalyseerd. De keuze voor meerdere generaties per taak is gebaseerd op recent onderzoek dat aantoont dat een enkele generatie een aanzienlijke variantie in de benchmarkscore kan veroorzaken, terwijl meerdere generaties de nauwkeurigheid van de schatting verbeteren en de variantie reduceren \autocite{Zhang2026}. Door drie samples per taak te nemen wordt een representatiever beeld verkregen van de werkelijke prestaties van het model. Elke generatie gebeurde met een temperatuur van 0,2. Deze keuze is gebaseerd op onderzoek van Arora et al. (2024), dat op basis van 14.742 gegenereerde Python-codefragmenten aantoont dat temperaturen onder 0,5 optimaal zijn voor codegeneratie \autocite{Arora2024}. Een lage temperatuur verscherpt de kansverdeling van het model, waardoor het voornamelijk de meest waarschijnlijke tokens selecteert. \textcite{Chen2021} tonen aan dat deze deterministischere generatiestrategie de kans op syntactisch correcte en coherente code vergroot. Tegelijk blijft er bij temperatuur 0,2 voldoende diversiteit over om betekenisvolle variatie tussen samples te observeren. Om de reproduceerbaarheid te waarborgen werd voor elke taak gebruikgemaakt van drie vaste seed-waarden (42, 43 en 44), zodat de gegenereerde sample set bij een herhaling van het experiment exact kan worden gereproduceerd. De gegenereerde code werd automatisch opgeslagen als aparte Python bestanden, waarna de pipeline voor elke oplossing de volgende stappen doorliep:
 
 \begin{itemize}
 \item syntaxiscontrole via AST parsing;
@@ -119,33 +180,33 @@ De uitvoering van de verschillende LLM's gebeurde lokaal via Ollama, zodat meerd
 \item security analyse via Bandit;
 \item meting van uitvoeringstijd, CPU gebruik en geheugenverbruik tijdens executie op een vaste dataset;
 \item analyse van complexiteit en onderhoudbaarheid via Radon wat een Python tool is die statische codeanalyse uitvoert om metrische waarden zoals cyclomatische complexiteit, maintainability index en codekwaliteit van Python code te meten;
-\item schaalbaarheidstest waarbij de inputdata stapsgewijs wordt vergroot tot het geheugengebruik de 2 GB-grens overschrijdt;
+\item schaalbaarheidstest waarbij de inputdata stapsgewijs wordt vergroot tot het geheugengebruik de 2 GB grens overschrijdt;
 \item functionele tests om te controleren of de verwachte output correct werd gegenereerd.
 \end{itemize}
 
 \subsection{Verantwoording van de gekozen evaluatietools}
 
 \subsubsection{Ruff}
-De keuze voor Ruff als tool voor semantische en style-controle is gebaseerd op de performantie en gebruiksvriendelijkheid van de linter. Ruff is een in Rust geschreven Python-linter die aanzienlijk sneller is dan traditionele Python-linters, vooral bij grote codebases, en tegelijk de functionaliteit van meerdere bestaande tools zoals Flake8, Pylint en Black consolideert in één gestroomlijnde oplossing \autocite{brtnik2025thesis}. Deze snelheid en unified aanpak maken Ruff bijzonder geschikt voor een geautomatiseerde evaluatiepipeline waarin 630 codefragmenten snel en consistent moeten worden geanalyseerd zonder menselijke tussenkomst. Bovendien integreert Ruff naadloos in CI/CD-workflows en levert het duidelijke, bruikbare diagnostics \autocite{brtnik2025thesis}, wat essentieel is voor het reproduceerbaar en objectief beoordelen van de stijl- en semantische kwaliteit van LLM-gegenereerde code.
+De keuze voor Ruff als tool voor semantische en style controle is gebaseerd op de performantie en gebruiksvriendelijkheid van de linter. Ruff is een in Rust geschreven Python linter die aanzienlijk sneller is dan traditionele Python linters, vooral bij grote codebases, en tegelijk de functionaliteit van meerdere bestaande tools zoals Flake8, Pylint en Black consolideert in één gestroomlijnde oplossing \autocite{brtnik2025thesis}. Deze snelheid en unified aanpak maken Ruff bijzonder geschikt voor een geautomatiseerde evaluatiepipeline waarin 630 codefragmenten snel en consistent moeten worden geanalyseerd zonder menselijke tussenkomst. Bovendien integreert Ruff naadloos in CI/CD-workflows en levert het duidelijke, bruikbare diagnostics \autocite{brtnik2025thesis}, wat essentieel is voor het reproduceerbaar en objectief beoordelen van de stijl en semantische kwaliteit van LLM gegenereerde code.
 
 \subsubsection{Bandit}
-Bandit werd geselecteerd als security-analysetool. Bandit is een open-source static analysis tool, oorspronkelijk ontwikkeld door het OpenStack Security Project, die de Abstract Syntax Tree van Python-code parseert en systematisch inspecteert op bekende veiligheidsrisico's \autocite{Alrashedy2025}. De tool detecteert een brede waaier aan kwetsbaarheden, waaronder hardcoded credentials, zwakke cryptografische algoritmes, onveilig subprocess-gebruik, SQL-injectie en andere veelvoorkomende beveiligingsproblemen in Python \autocite{Alrashedy2025}. Bandit genereert automatisch gestructureerde rapporten met de ernstgraad, de precieze locatie en een beschrijving van elk probleem, wat de tool bijzonder geschikt maakt voor geautomatiseerde verwerking in een evaluatiepipeline. Uit onderzoek blijkt dat Bandit veel wordt ingezet voor het evalueren van LLM-gegenereerde code en door de gemeenschap wordt beschouwd als een breed gedragen en hoog aangeschreven tool voor Python-security-analyse \autocite{Alrashedy2025}. De combinatie van AST-gebaseerde detectie, uitgebreide regeldekking en automatische rapportage maakt Bandit tot een geschikte keuze voor het objectief beoordelen van de beveiligingskwaliteit van de gegenereerde code in dit onderzoek.
+Bandit werd geselecteerd als security analysetool. Bandit is een open source static analysis tool, oorspronkelijk ontwikkeld door het OpenStack Security Project, die de Abstract Syntax Tree van Python code parseert en systematisch inspecteert op bekende veiligheidsrisico's \autocite{Alrashedy2025}. De tool detecteert een brede waaier aan kwetsbaarheden, waaronder hardcoded credentials, zwakke cryptografische algoritmes, onveilig subprocess gebruik, SQL injectie en andere veelvoorkomende beveiligingsproblemen in Python \autocite{Alrashedy2025}. Bandit genereert automatisch gestructureerde rapporten met het niveau van risico, de precieze locatie en een beschrijving van elk probleem, wat de tool bijzonder geschikt maakt voor geautomatiseerde verwerking in een evaluatiepipeline. Uit onderzoek blijkt dat Bandit veel wordt ingezet voor het evalueren van LLM gegenereerde code en wordt beschouwd als een hoog aangeschreven tool voor Python security analyse \autocite{Alrashedy2025}. De combinatie van AST gebaseerde detectie, uitgebreide regeldekking en automatische rapportage maakt Bandit tot een geschikte keuze voor het objectief beoordelen van de beveiligingskwaliteit van de gegenereerde code in dit onderzoek.
 
 \subsubsection{Radon}
-Voor de analyse van complexiteit en onderhoudbaarheid werd Radon geselecteerd. Radon is een Python-tool die statische codeanalyse uitvoert en metrische waarden berekent zoals cyclomatische complexiteit, maintainability index en codekwaliteit. De tool wordt in de literatuur vaak gebruikt voor het evalueren van AI-gegenereerde code. \textcite{Bayram2025} pasten Radon toe in een vergelijkende benchmarkstudie van zes AI-modellen voor Python-codegeneratie, waarbij ze zowel de cyclomatische complexiteit via \texttt{cc\_visit()} als de maintainability index via \texttt{mi\_visit()} berekenden. Hun resultaten toonden een positieve correlatie (r = 0,73) tussen cyclomatische complexiteit en functionele correctheid, wat aantoont dat deze metrieken waardevolle inzichten bieden in de kwaliteit van LLM-gegenereerde code \autocite{Bayram2025}.
+Voor de analyse van complexiteit en onderhoudbaarheid werd Radon geselecteerd. Radon is een Python tool die statische codeanalyse uitvoert en metrische waarden berekent zoals cyclomatische complexiteit, maintainability index en codekwaliteit. De tool wordt vaak gebruikt voor het evalueren van AI gegenereerde code. \textcite{Bayram2025} pasten Radon toe in een vergelijkende benchmarkstudie van zes AI modellen voor Python codegeneratie, waarbij ze zowel de cyclomatische complexiteit via \texttt{cc\_visit()} als de maintainability index via \texttt{mi\_visit()} berekenden. Hun resultaten toonden een positieve correlatie (r = 0,73) tussen cyclomatische complexiteit en functionele correctheid, wat aantoont dat deze metrieken waardevolle inzichten bieden in de kwaliteit van LLM gegenereerde code \autocite{Bayram2025}.
 
-De maintainability index is een veelgebruikte softwaremetriek die een kwantitatieve maat biedt om de onderhoudbaarheid van verschillende stukken code te vergelijken en veranderingen in de tijd te volgen \autocite{Morrison2023}. De score loopt van 0 tot 100, waarbij een hogere score duidt op beter onderhoudbare code \autocite{Morrison2023}. Radon wordt expliciet vermeld als de tool voor het berekenen van de maintainability index in empirisch onderzoek naar Python-programma's, en de tool is relatief eenvoudig te gebruiken en te automatiseren \autocite{Morrison2023}.
+De maintainability index is een veelgebruikte softwaremetriek die een kwantitatieve maat biedt om de onderhoudbaarheid van verschillende stukken code te vergelijken \autocite{Morrison2023}. De score loopt van 0 tot 100, waarbij een hogere score duidt op beter onderhoudbare code \autocite{Morrison2023}. Radon wordt expliciet vermeld als de tool voor het berekenen van de maintainability index in onderzoek naar Python programma's, en de tool is relatief eenvoudig te gebruiken en te automatiseren \autocite{Morrison2023}.
 
-Een kanttekening is dat de maintainability index alleen niet volstaat als maat voor onderhoudbaarheid, omdat de metriek voornamelijk gebaseerd is op omvang en complexiteit en factoren zoals coupling en cohesion negeert \autocite{Morrison2023}. Daarom wordt Radon in dit onderzoek gecombineerd met de andere evaluatiedimensies — syntaxis, stijl, beveiliging, uitvoerbaarheid, performantie, schaalbaarheid en functionele correctheid — zodat een genuanceerder en vollediger beeld van de codekwaliteit ontstaat.
+Een kanttekening is dat de maintainability index alleen niet volstaat als maat voor onderhoudbaarheid, omdat de metriek voornamelijk gebaseerd is op omvang en complexiteit \autocite{Morrison2023}. Daarom wordt Radon in dit onderzoek gecombineerd met de andere evaluatiedimensies: syntaxis, stijl, beveiliging, uitvoerbaarheid, performantie, schaalbaarheid en functionele correctheid, zodat een genuanceerder en vollediger beeld van de codekwaliteit ontstaat.
 
 \subsubsection{Schaalbaarheid}
-Als achtste evaluatiedimensie werd schaalbaarheid toegevoegd. Deze metriek beoordeelt of de gegenereerde code efficiënt kan omgaan met toenemende hoeveelheden data, wat een essentieel kenmerk is voor data analyse en ETL taken in realistische scenario's. De schaalbaarheidstest werkt door de inputdata stapsgewijs te vergroten — bijvoorbeeld door het aantal rijen in een CSV-bestand te vermenigvuldigen — en telkens te meten hoeveel geheugen het programma verbruikt. Zodra het geheugengebruik de 2 GB-grens overschrijdt, stopt de test en krijgt de code een score op basis van de grootste dataset die het zonder problemen kon verwerken. Deze aanpak maakt het mogelijk om te detecteren of LLM-gegenereerde code onnodig veel geheugen verbruikt door inefficiënte datastructuren, het ontbreken van chunking of het onbewust laden van volledige datasets in het geheugen zonder streaming.
+Als achtste evaluatiedimensie werd schaalbaarheid toegevoegd. Deze metriek beoordeelt of de gegenereerde code efficiënt kan omgaan met toenemende hoeveelheden data, wat een essentieel kenmerk is voor data analyse en ETL taken in realistische scenario's. De schaalbaarheidstest werkt door de inputdata stapsgewijs te vergroten — bijvoorbeeld door het aantal rijen in een CSV bestand te vermenigvuldigen — en telkens te meten hoeveel geheugen het programma verbruikt. Zodra het geheugengebruik de 2 GB grens overschrijdt, stopt de test en krijgt de code een score op basis van de grootste dataset die het zonder problemen kon verwerken. Deze aanpak maakt het mogelijk om te detecteren of LLM gegenereerde code onnodig veel geheugen verbruikt door inefficiënte datastructuren, het ontbreken van chunking of het onbewust laden van volledige datasets in het geheugen zonder streaming.
 
 De resultaten van deze automatische evaluatie, bijvoorbeeld geslaagd of niet geslaagd, aantal tests geslaagd en type fouten, werden gestructureerd opgeslagen in een JSON formaat zodat latere analyse mogelijk bleef. De deliverable van deze fase is een werkende, volledig geautomatiseerde evaluatieomgeving die meerdere modellen en runs zonder menselijke tussenkomst kan verwerken, vergelijkbaar met de automatische processen die in recente evaluatiestudies worden voorgesteld \autocite{Li2023,LopezEspejel2025}. De volledige code van de evaluatiepipeline, inclusief alle scripts, prompts en testdata, is openbaar beschikbaar via de GitHub repository: \url{https://github.com/renaudVermeiren/Onderzoek}.
 
-\subsection{Keuze voor lokale open-source modellen}
+\subsection{Keuze voor lokale open source modellen}
 
-De keuze om lokaal draaiende open-source modellen te gebruiken via Ollama is bewust gemaakt op basis van vier argumenten die zowel de wetenschappelijke kwaliteit als de praktische uitvoerbaarheid van dit onderzoek ondersteunen.
+De keuze om lokaal draaiende open source modellen te gebruiken via Ollama is bewust gemaakt op basis van vier argumenten die zowel de wetenschappelijke kwaliteit als de praktische uitvoerbaarheid van dit onderzoek ondersteunen.
 
 Een eerste overweging is reproduceerbaarheid. Commerciële API's zoals ChatGPT of Copilot kunnen hun modelversies, parameters of beschikbaarheid wijzigen zonder voorafgaande kennisgeving, waardoor het moeilijk is om een experiment exact te herhalen. Door open source modellen lokaal te draaien heb ik volledige controle over de exacte modelversie, configuratie en uitvoeringsomgeving, wat essentieel is voor een reproduceerbare benchmark.
 
@@ -153,7 +214,7 @@ Ten tweede speelt kostenefficiëntie een rol. Een vergelijkend experiment met ze
 
 Een derde argument is privacy en het kunnen beheren van je eigen data. Omdat de prompts en gegenereerde code binnen de evaluatiepipeline soms voorbeeld datasets, bestandsnamen of hypothetische scenario's bevatten, blijven deze gegevens bij lokale uitvoering volledig binnen de eigen omgeving.
 
-Tot slot is de keuze voor Ollama als uniforme interface praktisch omdat het model onafhankelijke vergelijking voorziet. Zonder Ollama zou voor elk model een aparte API integratie nodig zijn, wat de complexiteit van de pipeline zou verhogen en de kans op implementatieverschillen tussen modellen zou introduceren. Door alle modellen via dezelfde lokale interface aan te spreken, worden externe variabelen zoveel mogelijk geëlimineerd, waardoor de geobserveerde prestatieverschillen beter toegeschreven kunnen worden aan de modellen zelf. Deze aanpak wordt ondersteund door vergelijkend onderzoek waaruit blijkt dat Ollama een geschikt en breed ingezet platform is voor het lokaal draaien van open-source LLMs, met een OpenAI-compatibele API en een eenvoudige installatie \autocite{Rajesh2025}.
+Tot slot is de keuze voor Ollama als uniforme interface praktisch omdat het model onafhankelijke vergelijking voorziet. Zonder Ollama zou voor elk model een aparte API integratie nodig zijn, wat de complexiteit van de pipeline zou verhogen en de kans op implementatieverschillen tussen modellen zou introduceren. Door alle modellen via dezelfde lokale interface aan te spreken, worden externe variabelen zoveel mogelijk geëlimineerd, waardoor de geobserveerde prestatieverschillen beter toegeschreven kunnen worden aan de modellen zelf. Deze aanpak wordt ondersteund door vergelijkend onderzoek waaruit blijkt dat Ollama een geschikt en breed ingezet platform is voor het lokaal draaien van open source LLMs, met een OpenAI compatibele API en een eenvoudige installatie \autocite{Rajesh2025}.
 
 \subsection{Scope en beperkingen}
 
@@ -167,19 +228,19 @@ In de derde fase werden de verzamelde gegevens systematisch geanalyseerd per mod
     \item \textbf{Gemiddelde kwaliteitsscore}: het gemiddelde van alle evaluator scores (exclusief Functional) over alle taken, gebruikt voor de overall ranking;
     \item \textbf{Consistentie over runs}: de variabiliteit tussen de drie samples per taak, als indicator voor betrouwbaarheid van de codegeneratie;
     \item \textbf{Prestatie per taakcategorie}: de gemiddelde scores voor Data Cleaning, Data Transformation, Joins \& Aggregation, Performance Optimization en Data Operations;
-    \item \textbf{Verdeling van code omvang en uitvoeringstijd}: statistische samenvatting (mediaan, interkwartielafstand) van regels code en executietijd.
+    \item \textbf{Verdeling van code omvang en uitvoeringstijd}: statistische samenvatting van regels code en executietijd.
 \end{itemize}
 
 Deze resultaten werden visueel samengevat in tabellen en grafieken en vormden de basis voor de beantwoording van de onderzoeksvraag en deelvragen. Parallel hiermee werd op basis van de geobserveerde patronen een praktisch evaluatiekader ontwikkeld, dat bestaat uit aanbevelingen voor teststrategieën bij data analyse en ETL taken en richtlijnen voor het kiezen en gebruiken van modellen via Ollama in een onderwijscontext. De deliverables van deze fase zijn de geanalyseerde resultaten en de daaruit afgeleide aanbevelingen. Deze opbouw sluit aan bij eerdere raamwerken in de literatuur, maar is specifiek afgestemd op Python gebaseerde data engineering taken en op de praktijkcontext van HOGENT \autocite{LopezEspejel2025}.
 
 \section{Samenvatting van de onderzoekscasussen}
 
-De 35 casussen dekken samen alle data engineering aspecten uit hoofdstuk 2 als concrete benchmarks. Per casus worden zowel functionele correctheid als codekwaliteit getest, met specifieke aandacht voor syntax, semantiek, security, performantie en onderhoudbaarheid. Door de casussen expliciet te koppelen aan prompts, inputdata en verwachte output ontstaat een reproduceerbare onderzoeksopzet waarmee de prestaties van verschillende LLM's objectief kunnen worden vergeleken. 
+De 35 casussen dekken samen alle data engineering aspecten uit hoofdstuk 2 als concrete benchmarks. Per casus worden zowel functionele correctheid als codekwaliteit getest. Door de casussen expliciet te koppelen aan prompts, inputdata en verwachte output ontstaat een reproduceerbare onderzoeksopzet waarmee de prestaties van verschillende LLM's objectief kunnen worden vergeleken. 
 
 \begin{itemize}
 \item \textbf{Syntax:} controle via AST parsing.
-\item \textbf{Semantische correctheid:} controle via Ruff, wat een snelle Python-linter en formatter is die code controleert op fouten, stijlproblemen en kwaliteitsregels om consistente en propere Python code te garanderen.
-\item \textbf{Security:} controle via Bandit, wat een beveiligingsgerichte Python-analysetool is die broncode scant op mogelijke kwetsbaarheden en onveilige programmeerpraktijken, zoals hardcoded wachtwoorden, gevaarlijke functies of onveilige bestands- en subprocess-aanroepen.
+\item \textbf{Semantische correctheid:} controle via Ruff, wat een snelle Python linter en formatter is die code controleert op fouten, stijlproblemen en kwaliteitsregels om consistente en propere Python code te garanderen.
+\item \textbf{Security:} controle via Bandit, wat een beveiligingsgerichte Python analysetool is die broncode scant op mogelijke kwetsbaarheden en onveilige programmeerpraktijken, zoals hardcoded wachtwoorden, gevaarlijke functies of onveilige bestands en subprocess aanroepen.
 \item \textbf{Execution:} controle via runtime tests.
 \item \textbf{Performance:} controle via CPU en geheugengebruik.
 \item \textbf{Schaalbaarheid:} meting van het maximale data volume dat de code kan verwerken voordat het geheugengebruik de 2 GB-grens overschrijdt.
