@@ -10,7 +10,11 @@
 
 De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met drie samples per taak. Dit resulteerde in 630 individuele code-evaluaties. De resultaten worden gevisualiseerd in de volgende figuren.
 
-\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. \texttt{qwen2.5-coder} behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon, maar bleef steken op 57,1\% voor functionele correctheid. \texttt{deepseek-coder-v2} toonde eveneens sterke syntactische en security-resultaten met een functionele score van 57,1\%. \texttt{gemma4} had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). \texttt{llama3} scoorde hoog op overall quality (96,1\%) maar liet lagere scores zien voor execution (62,9\%) en functionaliteit (41,0\%). \texttt{phi4-mini} en \texttt{mistral} scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%.
+Uit de analyse blijkt een duidelijk verband tussen taakcomplexiteit en functionele correctheid. De taken werden ingedeeld in drie niveaus op basis van objectieve criteria: eenvoudige taken (1 bestand, 1 tot 2 standaardbewerkingen), gemiddelde taken (meerdere stappen, formaatherkenning of meerdere bestanden) en moeilijke taken (algoritmisch denken of geheugenefficiëntie). Voor eenvoudige taken varieerde de functionele correctheid van 44,4\% (mistral) tot 75,0\% (deepseek-coder-v2 en qwen2.5-coder). Voor gemiddelde taken daalde dit naar 20,0\% (mistral) tot 55,0\% (deepseek-coder-v2 en qwen2.5-coder). Alle zes modellen presteerden lager op gemiddelde dan op eenvoudige taken, wat bevestigt dat taken waarbij meerdere bewerkingen gecombineerd moeten worden — zoals inlezen, transformeren, valideren en wegschrijven — vaker tot fouten leiden. De moeilijke taken (chunked processing, memory filtering en fuzzy deduplication) vertoonden een wisselend beeld: deepseek-coder-v2 en qwen2.5-coder scoorden 66,7\%, gemma4 eveneens 66,7\%, terwijl phi4-mini slechts 11,1\% haalde.
+
+De schaalbaarheidstest, waarbij de inputdata stapsgewijs werd vergroot tot het geheugengebruik de 2 GB grens overschreed, toonde eveneens duidelijke verschillen tussen de modellen. Qwen 2.5 Coder behaalde de hoogste gemiddelde schaalbaarheidsscore (80,6\%), gevolgd door Gemma 4 (79,9\%) en DeepSeek Coder V2 (77,2\%), terwijl Mistral de laagste score haalde (52,7\%). Opvallend is dat alle modellen voor bepaalde taken een schaalbaarheidsscore van 0\% noteerden, wat betekent dat de gegenereerde code wel correct werkte op kleine datasets maar faalde bij opschaling.
+
+\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. \texttt{qwen2.5-coder} behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon, maar bleef steken op 57,1\% voor functionele correctheid. \texttt{deepseek-coder-v2} toonde eveneens sterke syntactische en security-resultaten met een functionele score van 57,1\%. \texttt{gemma4} had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). \texttt{llama3} behaalde een degelijke overall score (81,7\%) maar liet lagere execution (62,9\%) en functionaliteit (41,0\%) zien. \texttt{phi4-mini} en \texttt{mistral} scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%, met \texttt{mistral} ook opvallend zwak op execution (51,4\%).
 
 \textbf{Figuur \ref{fig:task_performance}} visualiseert de gemiddelde kwaliteitsscore per taakcategorie. De modellen presteerden over het algemeen vergelijkbaar over de verschillende categorieën (Data Cleaning, Data Operations, Data Transformation, Joins \& Aggregation, Performance Optimization), met lichte variaties afhankelijk van de taakcomplexiteit.
 
@@ -20,7 +24,7 @@ De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met dri
 
 \textbf{Figuur \ref{fig:execution_times}} toont de verdeling van de uitvoeringstijden per model. Dit geeft inzicht in de runtime-efficiëntie van de gegenereerde code.
 
-\textbf{Figuur \ref{fig:model_ranking}} presenteert de algemene rangschikking op basis van de gemiddelde kwaliteitsscore over alle evaluatoren (exclusief functionaliteit). De rangschikking is: \texttt{llama3} (96,1\%), \texttt{deepseek-coder-v2} (95,7\%), \texttt{qwen2.5-coder} (95,6\%), \texttt{mistral} (94,6\%), \texttt{phi4-mini} (89,0\%) en \texttt{gemma4} (86,9\%).
+\textbf{Figuur \ref{fig:model_ranking}} presenteert de algemene rangschikking op basis van de gemiddelde kwaliteitsscore over alle evaluatoren (exclusief functionaliteit). De rangschikking is: \texttt{deepseek-coder-v2} (90,3\%), \texttt{qwen2.5-coder} (90,2\%), \texttt{gemma4} (86,5\%), \texttt{phi4-mini} (85,4\%), \texttt{llama3} (81,7\%) en \texttt{mistral} (79,6\%).
 
 \textbf{Figuur \ref{fig:08_sample_consistency}} toont de consistentie over de drie samples per evaluator. Een lagere variantie wijst op een betrouwbaardere codegeneratie.
 
@@ -64,7 +68,7 @@ De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met dri
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/07_model_ranking.png}
-    \caption{Algemene rangschikking van de modellen op basis van de gemiddelde kwaliteitsscore over alle evaluatoren (exclusief functionele correctheid). Llama 3 voert de rangschikking aan met 96,1\%, gevolgd door DeepSeek Coder V2 (95,7\%) en Qwen 2.5 Coder (95,6\%).}
+    \caption{Algemene rangschikking van de modellen op basis van de gemiddelde kwaliteitsscore over alle evaluatoren (exclusief functionele correctheid). DeepSeek Coder V2 voert de rangschikking aan met 90,3\%, gevolgd door Qwen 2.5 Coder (90,2\%) en Gemma 4 (86,5\%).}
     \label{fig:model_ranking}
 \end{figure}
 
