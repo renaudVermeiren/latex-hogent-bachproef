@@ -1,0 +1,54 @@
+%%=============================================================================
+%% Wijzigingen ten opzichte van de eerste versie
+%%=============================================================================
+
+\chapter{Wijzigingen ten opzichte van de eerste versie}%
+\label{ch:wijzigingen}
+
+Dit hoofdstuk geeft een overzicht van de belangrijkste aanpassingen die werden doorgevoerd na de feedback op de eerste versie van deze bachelorproef. Het bevat zowel vormelijke als inhoudelijke wijzigingen, met vermelding van de betrokken secties.
+
+\section{Vormelijke wijzigingen}
+
+\subsection{Inhoudsopgave: lijst van tabellen en codefragmenten}
+De inhoudsopgave vermeldde een lijst van tabellen en codefragmenten, maar die waren in de eerste versie niet aanwezig. Er werden twee tabellen toegevoegd: een overzichtstabel van de 35 casussen in Sectie~3.2.1 (Tabel~\ref{tab:casusoverzicht}) en een pass rate tabel per model in Sectie~4.1 (Tabel~\ref{tab:pass_rates}). De lijst van codefragmenten werd uit de inhoudsopgave verwijderd.
+
+\subsection{Spelfouten en vertalingen}
+Doorheen de volledige tekst werden spelfouten in samenstellingen en houterige Engelse vertalingen gecorrigeerd. De modelnamen werden geharmoniseerd: DeepSeek Coder V2 (was Deepseek), Llama 3 (was llama 3), Phi-4 Mini (was Phi4-mini) en Qwen 2.5 Coder (was Qwen 2.5 coder). In Sectie~6.5 werd de typfout ``data analys'' gecorrigeerd naar ``data analyse''.
+
+\subsection{Sectienummering in Hoofdstuk 2}
+De onderverdeling in secties werd aangepast zodat de nummering correct verloopt (2.1, 2.2, 2.3, ...) in plaats van ondiepe subsecties (2.0.1, 2.0.2, ...). De genummerde \verb|\subsection|-commando's vervangen de niet genummerde \verb|\subsection*|-varianten.
+
+\subsection{Eigen hoofdstuk voor resultaten}
+De resultaten werden verplaatst van onder het hoofdstuk Methodologie naar een eigen apart hoofdstuk (Hoofdstuk~4: Resultaten). Dit zorgt voor een logischere opbouw en maakt de methodologie overzichtelijker.
+
+\subsection{Uitbreiding van figuurbeschrijvingen (Hoofdstuk 4)}
+De beschrijvingen bij de figuren werden uitgebreid met concrete percentages en relevante context. Elke figuur vermeldt nu expliciet welke modellen opvallen en wat de belangrijkste conclusie is. Daarnaast werden twee nieuwe figuren toegevoegd: de functionele correctheid per moeilijkheidsniveau (Figuur~4.2) en de schaalbaarheidsscore per model (Figuur~4.4).
+
+\section{Inhoudelijke wijzigingen}
+
+\subsection{Toelichting van de casussen (Sectie 3.2.1)}
+De casussen worden nu uitgebreid toegelicht. Er werd een objectieve moeilijkheidsclassificatie toegevoegd (12 eenvoudig, 20 gemiddeld, 3 moeilijk) met duidelijke criteria per niveau. De acht categorieën werden gekoppeld aan de stappen van een ETL proces en onderbouwd met literatuurverwijzingen \autocite{Kabir2024,Nascimento2024,Wei2025}.
+
+\subsection{Schaalbaarheid als evaluatiecriterium (Secties 3.3.1.4, 4.1, 5.1)}
+Schaalbaarheid werd toegevoegd als achtste evaluatiedimensie. De methodiek (stapsgewijze vergroting van inputdata tot 2 GB geheugengrens) wordt uitgelegd in Sectie~3.3.1.4. De resultaten staan in de pass rate tabel (Tabel~\ref{tab:pass_rates}) en Figuur~4.4 (schaalbaarheid). Qwen 2.5 Coder behaalde de hoogste score (80,6\%), Mistral de laagste (52,7\%). Deze bevinding werd ook verwerkt in de conclusie (Sectie~5.1).
+
+\subsection{Verantwoording van softwarepakketten (Sectie 3.3.1)}
+Elk gebruikt softwarepakket wordt nu beter verantwoord:
+\begin{itemize}
+    \item \textbf{Ruff:} onderbouwd met \autocite{brtnik2025thesis} (snelheid door Rust, unified aanpak, CI/CD-integratie).
+    \item \textbf{Bandit:} onderbouwd met \autocite{Alrashedy2025} (AST gebaseerde detectie, brede regeldekking, gebruikt in LLM onderzoek).
+    \item \textbf{Radon:} onderbouwd met \autocite{Bayram2025,Morrison2023} (gebruikt in vergelijkende benchmarkstudies, maintainability index).
+    \item \textbf{Schaalbaarheid:} methodiek uitgelegd met verantwoording van de 2 GB grens en de stapsgewijze opschaling.
+\end{itemize}
+
+\subsection{Uitleg bij temperatuurinstellingen (Sectie 3.3)}
+Er werd een uitgebreide toelichting toegevoegd over de keuze van temperatuur 0,2, met verwijzing naar \textcite{Arora2024} (optimale temperatuur onder 0,5 voor codegeneratie) en \textcite{Chen2021} (lage temperatuur verscherpt kansverdeling, verhoogt kans op correcte code).
+
+\subsection{Onderbouwing van uitspraken (Secties 4.1, 5.1)}
+Eerder ongefundeerde uitspraken zoals ``complexe taken leiden tot meer fouten'' werden onderbouwd met concrete data. De conclusie bevat nu expliciete percentages per moeilijkheidsniveau (easy: 44,4\% tot 75,0\%, medium: 20,0\% tot 55,0\%) met verwijzing naar de resultaten en figuren. Ook de schaalbaarheidsconclusie in Sectie~5.1 verwijst naar Tabel~\ref{tab:pass_rates} en Figuur~4.4.
+
+\subsection{Toevoeging van tabellen (Secties 3.2.1, 4.1)}
+De bewering ``resultaten worden samengevat in tabellen en grafieken'' werd gecorrigeerd naar ``figuren''. Er werden twee effectieve tabellen toegevoegd: de casusoverzichtstabel (Tabel~\ref{tab:casusoverzicht}) en de pass rate tabel (Tabel~\ref{tab:pass_rates}) met alle 48 waarden per model en evaluator.
+
+\subsection{Verantwoording van Ollama en modelkeuze (Sectie 3.3.2)}
+De argumentatie voor Ollama als uniforme interface werd uitgebreid met een verwijzing naar \autocite{Rajesh2025} (streaming prestaties, opstarttijd, privacy). Een vijfde argument werd toegevoegd dat de selectie van de zes modellen verantwoordt op basis van grootte (3,8 tot 16 miljard parameters, uitvoerbaar op consumentenhardware) en diversiteit (zes verschillende modelfamilies). Dit wordt ondersteund door \autocite{LopezEspejel2025}.

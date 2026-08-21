@@ -8,9 +8,9 @@
 \section{Resultaten}
 \label{subsec:resultaatvisualisatie}
 
-De evaluatie omvatte zes modellen die elk op 35 ETL-taken werden getest, met drie samples per taak. Dit resulteerde in 630 individuele code-evaluaties. De resultaten worden gevisualiseerd in de volgende figuren.
+De evaluatie omvatte zes modellen die elk op 35 ETL taken werden getest, met drie samples per taak. Dit resulteerde in 630 individuele code evaluaties. De resultaten worden gevisualiseerd in de volgende figuren.
 
-Uit de analyse blijkt een duidelijk verband tussen taakcomplexiteit en functionele correctheid. De taken werden ingedeeld in drie niveaus op basis van objectieve criteria: eenvoudige taken (1 bestand, 1 tot 2 standaardbewerkingen), gemiddelde taken (meerdere stappen, formaatherkenning of meerdere bestanden) en moeilijke taken (algoritmisch denken of geheugenefficiëntie). Voor eenvoudige taken varieerde de functionele correctheid van 44,4\% (mistral) tot 75,0\% (deepseek-coder-v2 en qwen2.5-coder). Voor gemiddelde taken daalde dit naar 20,0\% (mistral) tot 55,0\% (deepseek-coder-v2 en qwen2.5-coder). Alle zes modellen presteerden lager op gemiddelde dan op eenvoudige taken, wat bevestigt dat taken waarbij meerdere bewerkingen gecombineerd moeten worden — zoals inlezen, transformeren, valideren en wegschrijven — vaker tot fouten leiden. De moeilijke taken (chunked processing, memory filtering en fuzzy deduplication) vertoonden een wisselend beeld: deepseek-coder-v2 en qwen2.5-coder scoorden 66,7\%, gemma4 eveneens 66,7\%, terwijl phi4-mini slechts 11,1\% haalde.
+Uit de analyse blijkt een duidelijk verband tussen taakcomplexiteit en functionele correctheid. De taken werden ingedeeld in drie niveaus op basis van objectieve criteria: eenvoudige taken (1 bestand, 1 tot 2 standaardbewerkingen), gemiddelde taken (meerdere stappen, formaatherkenning of meerdere bestanden) en moeilijke taken (algoritmisch denken of geheugenefficiëntie). Voor eenvoudige taken varieerde de functionele correctheid van 44,4\% (mistral) tot 75,0\% (deepseek-coder-v2 en qwen2.5-coder). Voor gemiddelde taken daalde dit naar 20,0\% (mistral) tot 55,0\% (deepseek-coder-v2 en qwen2.5-coder). Alle zes modellen presteerden lager op gemiddelde dan op eenvoudige taken, wat bevestigt dat taken waarbij meerdere bewerkingen gecombineerd moeten worden, zoals inlezen, transformeren, valideren en wegschrijven, vaker tot fouten leiden. De moeilijke taken (chunked processing, memory filtering en fuzzy deduplication) vertoonden een wisselend beeld: deepseek-coder-v2 en qwen2.5-coder scoorden 66,7\%, gemma4 eveneens 66,7\%, terwijl phi4-mini slechts 11,1\% haalde.
 
 De schaalbaarheidstest, waarbij de inputdata stapsgewijs werd vergroot tot het geheugengebruik de 2 GB grens overschreed, toonde eveneens duidelijke verschillen tussen de modellen. Qwen 2.5 Coder behaalde de hoogste gemiddelde schaalbaarheidsscore (80,6\%), gevolgd door Gemma 4 (79,9\%) en DeepSeek Coder V2 (77,2\%), terwijl Mistral de laagste score haalde (52,7\%). Opvallend is dat alle modellen voor bepaalde taken een schaalbaarheidsscore van 0\% noteerden, wat betekent dat de gegenereerde code wel correct werkte op kleine datasets maar faalde bij opschaling.
 
@@ -36,7 +36,7 @@ Qwen 2.5 Coder    & 100,0\% & 100,0\% & 100,0\% & 81,9\% & 81,9\% & 100,0\% & 57
 \label{tab:pass_rates}
 \end{table}
 
-\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. \texttt{qwen2.5-coder} behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon, maar bleef steken op 57,1\% voor functionele correctheid. \texttt{deepseek-coder-v2} toonde eveneens sterke syntactische en security-resultaten met een functionele score van 57,1\%. \texttt{gemma4} had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). \texttt{llama3} behaalde een degelijke overall score (81,7\%) maar liet lagere execution (62,9\%) en functionaliteit (41,0\%) zien. \texttt{phi4-mini} en \texttt{mistral} scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%, met \texttt{mistral} ook opvallend zwak op execution (51,4\%).
+\textbf{Figuur \ref{fig:01_evaluator_comparison}} toont een gegroepeerd staafdiagram van het gemiddelde slagingspercentage per evaluator voor elk model. Qwen2.5-coder behaalde een perfecte score voor style (100\%) en excelleerde in syntax, security en Radon, maar bleef steken op 57,1\% voor functionele correctheid. Deepseek-coder-v2 toonde eveneens sterke syntactische en security resultaten met een functionele score van 57,1\%. Gemma4 had de hoogste functionele score (58,1\%) maar de laagste style compliance (54,3\%). Llama3 behaalde een degelijke overall score (81,7\%) maar liet lagere execution (62,9\%) en functionaliteit (41,0\%) zien. Phi4-mini en Mistral scoorden lager op functionaliteit, respectievelijk 36,2\% en 29,5\%, met Mistral ook opvallend zwak op execution (51,4\%).
 
 \textbf{Figuur \ref{fig:functional_by_difficulty}} visualiseert de functionele correctheid per moeilijkheidsniveau. Alle zes modellen presteren lager op gemiddelde taken dan op eenvoudige taken. Voor eenvoudige taken varieert de functionele correctheid van 44,4\% (mistral) tot 75,0\% (deepseek-coder-v2 en qwen2.5-coder). Voor gemiddelde taken daalt deze naar 20,0\% (mistral) tot 55,0\% (deepseek-coder-v2 en qwen2.5-coder). De moeilijke taken (3 stuks) tonen een wisselend beeld, met uitschieters zoals phi4-mini (slechts 11,1\%).
 
@@ -48,7 +48,7 @@ Qwen 2.5 Coder    & 100,0\% & 100,0\% & 100,0\% & 81,9\% & 81,9\% & 100,0\% & 57
 
 \textbf{Figuur \ref{fig:execution_times}} toont de verdeling van de uitvoeringstijden per model. Dit geeft inzicht in de runtime-efficiëntie van de gegenereerde code.
 
-\textbf{Figuur \ref{fig:lines_of_code}} geeft een boxplot-weergave van de code-omvang per model.
+\textbf{Figuur \ref{fig:lines_of_code}} geeft een weergave van de code omvang per model.
 
 \textbf{Figuur \ref{fig:08_sample_consistency}} toont de consistentie over de drie samples per evaluator. Een lagere variantie wijst op een betrouwbaardere codegeneratie.
 
@@ -92,21 +92,21 @@ Qwen 2.5 Coder    & 100,0\% & 100,0\% & 100,0\% & 81,9\% & 81,9\% & 100,0\% & 57
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/06_execution_times.png}
-    \caption{Uitvoeringstijden (seconden) per model in boxplotweergave. De figuur geeft inzicht in de runtime-efficiëntie van de gegenereerde code.}
+    \caption{Uitvoeringstijden (seconden) per model. De figuur geeft inzicht in de runtime efficiëntie van de gegenereerde code.}
     \label{fig:execution_times}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/07_lines_of_code.png}
-    \caption{Boxplot van de code-omvang (aantal regels) per model. De figuur toont de mediaan, interkwartielafstand en uitschieters.}
+    \caption{Plot van de code omvang (aantal regels) per model. De figuur toont het gemiddelde van het aantal regels per model.}
     \label{fig:lines_of_code}
 \end{figure}
 
 \begin{figure}[htbp]
     \centering
     \includegraphics[width=0.9\linewidth]{images/08_sample_consistency.png}
-    \caption{Consistentie van de drie gegenereerde samples per model en per evaluator, weergegeven als gemiddelde standaarddeviatie. Een lagere waarde wijst op een betrouwbaardere codegeneratie.}
+    \caption{Consistentie van de drie gegenereerde samples per model en per evaluator. Een lagere waarde wijst op een betrouwbaardere codegeneratie.}
     \label{fig:08_sample_consistency}
 \end{figure}
 
